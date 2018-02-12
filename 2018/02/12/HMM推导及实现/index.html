@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/02/12/images/前向-后向概率.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/12/images/EM.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/12/images/log.png">
-<meta property="og:updated_time" content="2018-02-12T10:16:29.218Z">
+<meta property="og:updated_time" content="2018-02-12T10:27:00.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM推导及实现(一)">
 <meta name="twitter:description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。如下图所示： 其中 \(z_n\) 的值只受 \(z_{n-1}\) 的值影响。 然后隐马尔可夫模型再此基础上引入了这些状态的输出，也就是描述了由一个隐藏的马尔可夫链生成不">
@@ -319,30 +319,58 @@
 <p>其中 <span class="math inline">\(z_n\)</span> 的值只受 <span class="math inline">\(z_{n-1}\)</span> 的值影响。</p>
 <p>然后隐马尔可夫模型再此基础上引入了这些状态的输出，也就是描述了由一个隐藏的马尔可夫链生成不可观测的状态随机序列，再由各个状态生成观测随机序列的过程。如下图所示：<img src="../images/隐马尔可夫模型.png" alt="隐马尔可夫模型"></p>
 <p>其中，<span class="math inline">\(z_1,z_2,\dots,z_{n-1},z_{n},z_{n+1}\)</span> 即不可观测的状态随机序列，它们是一个马尔可夫链，并且每个状态又生成了可观测的状态序列 <span class="math inline">\(x_1,x_2,\dots,x_{n-1},x_n,x_{n+1}\)</span>。而在现实数据中，存在很多这样的问题，比如大家都知道的中文分词问题，每个字都是一个可观测的值，它们组成了一个可观测序列，但是每个字是如何组成一个词的这个状态我们是无法直接观测到的，所以被称为隐变量，例如可以假设这里的隐变量有以下的状态序列空间 <span class="math inline">\(\{B,M,S,E\}\)</span>,其中<span class="math inline">\(B\)</span>表示这个字是一个词的开头组成，<span class="math inline">\(M\)</span>表示这个字是一个词的中间部分，<span class="math inline">\(S\)</span> 表示这个字是单独成词，而<span class="math inline">\(E\)</span>表示这个字在这个词的结束。如果是这样我们就能知道这个词是由哪些字组成的，比如“为人民服务”这个字序列对应的隐状态标记序列为“<span class="math inline">\(SBEBE\)</span>”，这样我们就能够达到中文分词的目的了。所以，当我们输入观测序列给HMM，它就能够给我们这个观测序列的标记序列，这个问题被称为HMM的预测问题，这里先不展开，后面再详细说。</p>
-<p>&lt; !–more–&gt;</p>
+<a id="more"></a>
 <p>接下来，我们深入研究一下HMM的一些问题。通过上面的讲解，已经知道了隐变量有一个可能的状态序列，将其定义为 <span class="math inline">\(I=\{i_1,i_2,\dots,i_{T-1},i_{T} \}\)</span> （可以认为是HMM的Input，以后我们就把它叫做状态序列，<span class="math inline">\(T\)</span> 表示此时这个HMM的状态序列的长度），观测变量也有一个可能的取值，它们对应为状态序列 <span class="math inline">\(I\)</span>的输出，定义为 <span class="math inline">\(O=\{o_1,o_2,\dots,o_T \}\)</span>（可以认为是HMM的Output，称为观测序列）。需要注意的是，这里的 <span class="math inline">\(i_{index} 以及 o_{index}\)</span> 表示的是所有状态和观测集合的位置。我们还需要定义一个所有状态（隐变量）的集合为 <span class="math inline">\(Q=\{q_1,q_2,\dots,q_N\}\)</span> ，<span class="math inline">\(N\)</span> 表示所有状态的可能个数，所有可观测状态的集合为 <span class="math inline">\(V=\{v_1,v_2,\dots,v_M\}，M为所有可能的观测状态\)</span>。那么<span class="math inline">\(I\)</span>就是从状态集合<span class="math inline">\(Q\)</span>中抽取出来的序列，<span class="math inline">\(O\)</span>就是从观测集合<span class="math inline">\(V\)</span>中抽取出来的序列。</p>
 <p>在这个HMM的图中，每一个状态都有一个初始概率，定义为一个向量 <span class="math inline">\(\pi = (\pi_i),\pi_i=P(i_1=q_i)\)</span>，表示时刻 <span class="math inline">\(t=1\)</span> 的状态为 <span class="math inline">\(q_i\)</span> 的概率。状态和状态之间都有一个依据时间的转移概率，比如状态 <span class="math inline">\(i_1\)</span>从时间 <span class="math inline">\(t\)</span>在下一个时间 <span class="math inline">\(t+1\)</span>变成状态 <span class="math inline">\(i_2\)</span> 会有一个概率，为了方便，我们记时刻<span class="math inline">\(t\)</span>时的状态为 <span class="math inline">\(q_t\)</span>，那么把这个转移概率表示成 <span class="math inline">\(a_{ij}=p(q_{t+1} = j | q_t = i)\)</span>，因为是转移，后一个状态依赖于前一个状态，所以这里是条件概率。然而，每一个状态从时刻 <span class="math inline">\(t\)</span> 可能会在下一个时刻 <span class="math inline">\(t+1\)</span> 转移到状态集合中的任何一个状态，状态一共有 <span class="math inline">\(N\)</span> 个，所以概率有 <span class="math inline">\(N \times N\)</span> 个，于是把所有的概率表示为一个概率矩阵 <span class="math inline">\(A = [a_{ij}]_{N \times N}\)</span>，这个矩阵被称为状态概率矩阵。同样地，我们的状态会在 <span class="math inline">\(t\)</span> 时刻生成一个观测，状态有 <span class="math inline">\(N\)</span> 个，观测有 <span class="math inline">\(M\)</span> 个，会得到一个 <span class="math inline">\(N \times M\)</span> 的观测概率矩阵 <span class="math inline">\(B=[b_{j}(k)]_{N \times M}\)</span>，其中 <span class="math inline">\(b_j(k) = P(o_t=v_k |i_t = q_j),k=1,2,\dots,M;j=1,2,\dots,N\)</span>，表示，在时刻 <span class="math inline">\(t\)</span>处于状态<span class="math inline">\(q_j\)</span>的条件下生成观测 <span class="math inline">\(v_k\)</span> 的概率。</p>
 <p>我们把上面定义的三个参数 <span class="math inline">\(\lambda = (\pi,A,B)\)</span> 称为HMM的三要素，它们也是模型的参数，也就是说有了这个 <span class="math inline">\(\lambda\)</span>，我们就能够得到一个HMM了。由此，我们引出了HMM的三个问题： - 概率计算问题： 指在 <span class="math inline">\(\lambda\)</span> 和观测序列 <span class="math inline">\(O\)</span> 都已知的情况下，计算输出观测序列的概率，即求 <span class="math inline">\(P(O|\lambda)\)</span> - 学习问题： 指在观测序列 <span class="math inline">\(O\)</span> 已知的情况下，求得使得出现该观测序列概率最大的参数 <span class="math inline">\(\lambda\)</span>，即求 <span class="math inline">\(\lambda^* =\underset{\lambda}{\arg\max} P(O|\lambda)\)</span> - 预测问题： 指在 <span class="math inline">\(\lambda\)</span> 和观测序列 <span class="math inline">\(O\)</span> 都已知的情况下，计算最优可能的状态序列 <span class="math inline">\(I\)</span>,即求 <span class="math inline">\(I^*=\underset{I}{\arg\max }P(I|O;\lambda)\)</span></p>
 <p>再进入这三个问题之前，先说说HMM是如何生成序列的，并且举一个HMM的例子，以熟悉上面定义的一些概念。关于生成序列，HMM是这样做的： - (1)使用初始概率向量 <span class="math inline">\(\pi\)</span> 产生状态 <span class="math inline">\(i_1\)</span>； - (2)令 <span class="math inline">\(t=1\)</span> - (3)按照状态 <span class="math inline">\(i_t\)</span> 的观测概率分布 <span class="math inline">\(b_{i_t}(k)\)</span> 生成 <span class="math inline">\(o_t\)</span> - (4)按照状态 <span class="math inline">\(i_t\)</span> 的状态转移概率分布 <span class="math inline">\(\{a_{i_ti_{t+1}}\}\)</span> 产生状态 <span class="math inline">\(i_{t+1}\)</span>,<span class="math inline">\(i_{t+1}=1,2,\dots,N\)</span> - (5) 令 <span class="math inline">\(t=t+1\)</span>；如果 <span class="math inline">\(t&lt;T\)</span>，转步(3)；否则，终止</p>
-<p>下面举一个例子，假设有4个盒子，每个盒子里都装有红白两种颜色的球，盒子里的红白球数由下表给出。 盒子|1| 2| 3| 4 —–|—-|—-|—-|—- 红球数| 5| 3| 6|8 白球数|5|7|4|2 现在按照下面的方法抽球，产生一个球的颜色的观测序列：开始，从4个盒子里以等概率随机选取1个盒子，从这个盒子里随机抽出1个球，记录其颜色后，放回；然后，从当前盒子随机转移到下一个盒子，规则是：如果当前盒子是盒子1，那么下一盒子一定是盒子2，如果当前是盒子2或3，那么分别以概率0.4和0.6转移到左边或右边的盒子，如果当前是盒子4，那么各以0.5的概率停留在盒子4或转移到盒子3；确定转移的盒子后，再从这个盒子里随机抽出1个球，记录其颜色，放回；如此下去，重复进行5次，得到一个球的颜色的观测序列：<span class="math display">\[O=\{红，红，白，白，红\}\]</span>，在这个过程中，观察者只能观测到球的颜色的序列，观测不到球是从哪个盒子取出的，即观测不到盒子的序列。</p>
+<p>下面举一个例子，假设有4个盒子，每个盒子里都装有红白两种颜色的球，盒子里的红白球数由下表给出。</p>
+<table>
+<thead>
+<tr class="header">
+<th>盒子</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>红球数</td>
+<td>5</td>
+<td>3</td>
+<td>6</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>白球数</td>
+<td>5</td>
+<td>7</td>
+<td>4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>现在按照下面的方法抽球，产生一个球的颜色的观测序列：开始，从4个盒子里以等概率随机选取1个盒子，从这个盒子里随机抽出1个球，记录其颜色后，放回；然后，从当前盒子随机转移到下一个盒子，规则是：如果当前盒子是盒子1，那么下一盒子一定是盒子2，如果当前是盒子2或3，那么分别以概率0.4和0.6转移到左边或右边的盒子，如果当前是盒子4，那么各以0.5的概率停留在盒子4或转移到盒子3；确定转移的盒子后，再从这个盒子里随机抽出1个球，记录其颜色，放回；如此下去，重复进行5次，得到一个球的颜色的观测序列：<span class="math display">\[O=\{红，红，白，白，红\}\]</span>，在这个过程中，观察者只能观测到球的颜色的序列，观测不到球是从哪个盒子取出的，即观测不到盒子的序列。</p>
 <p>在这个例子中有两个随机序列，一个是盒子的序列（状态序列），一个是球的颜色的观测序列（观测序列）。前者是隐藏的，只有后者是可观测的。这是一个隐马尔可夫模型的例子，根据所给条件，可以明确状态集合、观测集合、序列长度以及模型的三要素。</p>
 <p>状态集合Q={盒子1，盒子2，盒子3，盒子4},N=4 观测集合V={红球，白球},M=2 由于是从4个盒子等概率随机选取1个盒子，所以初始概率向量为： <span class="math inline">\(\pi=[0.25,0.25,0.25,0.25]\)</span></p>
-状态概率矩阵为： [ A =
-<span class="math display">\[\begin{pmatrix}
+<p>状态概率矩阵为： <span class="math display">\[
+A = \begin{pmatrix}
     0 &amp; 1 &amp; 0 &amp; 0 \\
     0.4 &amp; 0 &amp; 0.6 &amp; 0 \\
     0 &amp; 0.4 &amp; 0 &amp; 0.6 \\
     0 &amp; 0 &amp; 0.5 &amp; 0.5 \\
     \end{pmatrix}
-\]\]</span>
-观测概率矩阵为： [ B =
-<span class="math display">\[\begin{pmatrix}
+\]</span></p>
+<p>观测概率矩阵为： <span class="math display">\[
+B = \begin{pmatrix}
     0.5 &amp; 0.5 \\
     0.3 &amp; 0.7 \\
     0.6 &amp; 0.4 \\
     0.8 &amp; 0.2 \\
     \end{pmatrix}
-\]\]</span>
+\]</span></p>
 <h2 id="hmm的概率计算问题">HMM的概率计算问题</h2>
 <p>下面就开始解决HMM最重要的三个问题了，首先是概率计算问题。有3种方法来计算这个问题： - 暴力计算 - 前向算法 - 后向算法</p>
 <h3 id="暴力计算">暴力计算</h3>
@@ -351,7 +379,7 @@ P(I|\lambda)=\pi_{i_1}a_{i_1i_2}a_{i_2i_3} \dots a_{i_{T-1}i_{T}}
 \]</span> 这个比较容易理解，首先产生 <span class="math inline">\(i_1\)</span> 状态，然后在 <span class="math inline">\(i_1\)</span>状态的条件下产生 <span class="math inline">\(i_2\)</span> 状态，通过转移概率不断向前推进。 再来看下 <span class="math inline">\(P(O|I,\lambda)\)</span>，它表示已知状态序列 <span class="math inline">\(I=(i_1,i_2,\dots,i_T)\)</span>，观测序列 <span class="math inline">\(O=(o_1,o_2,\dots,o_T)\)</span> 的概率。这个也可以直接算： <span class="math display">\[
 P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\dots b_{i_{T}}(o_T)
 \]</span> 这个也很直观，通过观测概率矩阵产生观测 <span class="math inline">\(o_1\)</span>，以此类推，直到产生所有的观测序列 <span class="math inline">\(O\)</span>。 然后，再让 <span class="math inline">\(P(O|\lambda)\)</span>和上面两个直观的结果看看能不能产生关系。我们发现： <span class="math display">\[
-P(O|\lambda)=\sum_{I}P(O,I|\lambda)(别说你这步也看不懂)=\sum_{I}P(O|I,\lambda)P(I|\lambda)=\sum_{I}\pi_{i_1}a_{i_1i_2}a_{i_2i_3} \dots \\ a_{i_{T-1}i_{T}}b_{i_1}(o_1)b_{i_2}(o_2)\dots b_{i_{T}}(o_T)=\sum_{I}\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\dots a_{i_{T-1}i_{T}}b_{i_{T}}(o_T)
+P(O|\lambda)=\sum_{I}P(O,I|\lambda)(别说你这步也看不懂)=\sum_{I}P(O|I,\lambda)P(I|\lambda)\\=\sum_{I}\pi_{i_1}a_{i_1i_2}a_{i_2i_3} \dots  a_{i_{T-1}i_{T}}b_{i_1}(o_1)b_{i_2}(o_2)\dots b_{i_{T}}(o_T)\\=\sum_{I}\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\dots a_{i_{T-1}i_{T}}b_{i_{T}}(o_T)
 \]</span> 上面这个就是最终的观测序列的概率。这个式子通过一个所有状态序列 <span class="math inline">\(I\)</span> 的加和，内部是一个乘积的形式，一共有 <span class="math inline">\(2T\)</span> 个因子相乘，而外面的加和因为 <span class="math inline">\(I\)</span>的状态序列是从所有 <span class="math inline">\(N\)</span> 个状态集合中选出来的，即每个状态有 <span class="math inline">\(N\)</span>种选择，一共有 <span class="math inline">\(T\)</span> 个序列，所以一共有 <span class="math inline">\(N^T\)</span>，根据乘法法则那么一共要计算 <span class="math inline">\(2TN^T\)</span> 次，时间复杂度也就是 <span class="math inline">\(O(TN^T)\)</span>，是指数级的。所以，我们需要找更快的算法。</p>
 <h3 id="前向算法">前向算法</h3>
 <p>前向算法的思想是动态规划，通过递推的方式求得最终答案。定义一个前向概率，如下图：</p>
@@ -367,7 +395,7 @@ P(o_1,o_2,\dots,o_{t-1},q_t=i|\lambda)=
 P(o_1,o_2,\dots,o_{t-1},q_{t-1}=j,q_t=i|\lambda)=P(o_1,o_2,\dots,o_{t-1},q_{t-1}=j)a_{ji}=\alpha_j(t-1)a_{ji}
 \]</span></p>
 <p>而 <span class="math display">\[
-P(o_1,o_2,\dots,o_{t},q_t=i|\lambda)=P(o_1,o_2,\dots,o_{t-1},q_t=i|\lambda)b_{i}(o_t)
+P(o_1,o_2,\dots,o_{t},q_t=i|\lambda)\\=P(o_1,o_2,\dots,o_{t-1},q_t=i|\lambda)b_{i}(o_t)
 \]</span> 最终得到： <span class="math display">\[
 \alpha_t(i) = \sum_{j=1}^{N}\Big(\alpha_{t-1}(j)a_{ji}\Big)b_i(o_t)（注意区分 \alpha 和 a ）
 \]</span></p>
@@ -429,7 +457,7 @@ E[f(X)] &gt;=f(EX)
 \]</span> 函数的期望大于等于期望的函数。</p>
 <p><span class="math display">\[l(\theta)=\sum_{i=1}^m\log \sum_{z} p(x,z;\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}p(x^{(i)},z^{(i)};\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
 \]</span> 上面我们假设了 <span class="math inline">\(Q_i\)</span> 是 <span class="math inline">\(z\)</span>的某一个分布，<span class="math inline">\(Q_i &gt;= 0\)</span>。在最后一个式子中，我们可以把 <span class="math inline">\(\log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}\)</span> 看成是一个对数函数，并且把 <span class="math inline">\(\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}\)</span>看成是一个随机变量 <span class="math inline">\(X\)</span>，那么这个求和就当于 <span class="math inline">\(X\)</span> 在分布 <span class="math inline">\(Q_i(z^{(i)})\)</span> 上的期望，也就是这里做了期望的函数操作，而对数是凹函数，那么根据上面的Jensen不等式有凹函数：期望的函数大于等于函数的期望。所以得到： <span class="math display">\[
-l(\theta)=\sum_{i=1}^m\log \sum_{z} p(x,z;\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}p(x^{(i)},z^{(i)};\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} \\ \geq  \sum_{i=1}^m \sum_{z^{(i)}} Q_i(z^{(i)}) \log  \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+l(\theta)=\sum_{i=1}^m\log \sum_{z} p(x,z;\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}p(x^{(i)},z^{(i)};\theta)\\=\sum_{i=1}^m \log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} \\ \geq  \sum_{i=1}^m \sum_{z^{(i)}} Q_i(z^{(i)}) \log  \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
 \]</span> 于是我们就找到了下界，那么这个等号什么时候成立呢？我们来看看对数函数的图像：</p>
 <p><img src="../images/log.png"> 一般来说函数的值都是大于割线的值，只有当两点 <span class="math inline">\(x_1=x_2\)</span>时，对数函数的值才等于割线的值。那么如果这个随机变量 <span class="math inline">\(X\)</span> 取一个定值 <span class="math inline">\(C\)</span>，就可以达到 <span class="math inline">\(x_1=x_2\)</span> 的目的。于是我们得到下面的式子： <span class="math display">\[
 \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} = C
