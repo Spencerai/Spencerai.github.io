@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一些激活函数不是zero centered，例如sigmoid，对于大多数计算图上的算法， 这就需要我们先对数据进行zero-mean softsign函数也被用作激活函数。这个函数的形式为 \(\frac{x}{|x| + 1}\)，它被认为是sign函数的连续近似。可以使用下面的代码实现： 1print(sess.run(tf.nn.softsign([-1., 0., -1.])))">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow基础知识">
+<meta property="og:url" content="http://yoursite.com/2018/12/11/TensorFlow基础知识/index.html">
+<meta property="og:site_name" content="Learn Machine Learning">
+<meta property="og:description" content="一些激活函数不是zero centered，例如sigmoid，对于大多数计算图上的算法， 这就需要我们先对数据进行zero-mean softsign函数也被用作激活函数。这个函数的形式为 \(\frac{x}{|x| + 1}\)，它被认为是sign函数的连续近似。可以使用下面的代码实现： 1print(sess.run(tf.nn.softsign([-1., 0., -1.])))">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-12T11:33:43.791Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow基础知识">
+<meta name="twitter:description" content="一些激活函数不是zero centered，例如sigmoid，对于大多数计算图上的算法， 这就需要我们先对数据进行zero-mean softsign函数也被用作激活函数。这个函数的形式为 \(\frac{x}{|x| + 1}\)，它被认为是sign函数的连续近似。可以使用下面的代码实现： 1print(sess.run(tf.nn.softsign([-1., 0., -1.])))">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/11/TensorFlow基础知识/"/>
+
+
+
+
+
+  <title>TensorFlow基础知识 | Learn Machine Learning</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Learn Machine Learning</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">AI民间玩家</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/11/TensorFlow基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spencer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Learn Machine Learning">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TensorFlow基础知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T23:30:32+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一些激活函数不是<code>zero centered</code>，例如<code>sigmoid</code>，对于大多数计算图上的算法， 这就需要我们先对数据进行<code>zero-mean</code></p>
+<p><code>softsign</code>函数也被用作激活函数。这个函数的形式为 <span class="math inline">\(\frac{x}{|x| + 1}\)</span>，它被认为是<code>sign</code>函数的连续近似。可以使用下面的代码实现： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(sess.run(tf.nn.softsign([<span class="number">-1.</span>, <span class="number">0.</span>, <span class="number">-1.</span>])))</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>另外一个函数，<code>softplus</code>是一个<code>ReLU</code>函数的平滑版。这个函数的形式为： <span class="math inline">\(\log(\exp(x) + 1)\)</span>，用代码的形式为： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(sess.run(tf.nn.softplus([<span class="number">-1.</span>, <span class="number">0.</span>, <span class="number">-1.</span>])))</span><br></pre></td></tr></table></figure></p>
+<p>当输入增加时<code>softplus</code>趋向于无穷大，而<code>softsign</code>趋向于1； 当输入减小时<code>softplus</code>趋向于0，而<code>softsign</code>趋向于-1。</p>
+<p><code>Exponential Linear Unit(ELU)</code>和<code>softplus</code>很相似，区别就是它的下界是-1而不是0。函数公式为： <span class="math display">\[
+  ELU(x) =
+  \left\{
+   \begin{aligned}
+      \exp(x) + 1  \ \ \ \ \  x &lt; 0  \\
+      x  \ \ \ \ \ x &gt; = 0   \\
+   \end{aligned}
+   \right.
+\]</span> 用TensorFlow实现如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(sess.run(tf.nn.elu([<span class="number">-1.</span>, <span class="number">0.</span>, <span class="number">-1.</span>])))</span><br></pre></td></tr></table></figure></p>
+<p>这些激活函数是我们把非线性引入神经网络或者未来的其他计算图。需要注意的是，我们在网络的哪里使用激活函数。如果激活函数的输出范围在0和1之间（sigmoid），那么计算图只能输出0到1之间的值。 如果激活函数是在内部和隐藏结点中，那么我们希望意识到这个输出范围会作用于我们的张量上。如果张量被归一到0均值，我们就是希望使用一个激活函数尽可能保持在0附近变化。这个意味着我们希望选择一个激活函数，例如tanh或者sigmoid。如果张量全部被处理为正值的，那么我们理想地要选择一个激活函数保持变化在正值域附近。</p>
+<h2 id="使用tensorflow和python处理数据">使用TensorFlow和Python处理数据</h2>
+<h2 id="layering-nested-operations">Layering Nested Operations</h2>
+<p>接下来将学习如何将多个操作放入同一个计算图。怎样把一些操作连接在一起是很重要的。这需要在计算图中设置<code>layered operations</code>，下面看一个例子：使用2个矩阵乘以一个<code>placeholder</code>，然后把它们相加起来。这2个矩阵使用一个3维的<code>numpy</code>数组。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">my_array = np.array([[<span class="number">1.</span>, <span class="number">3.</span>, <span class="number">5.</span>, <span class="number">7.</span>, <span class="number">9.</span>],</span><br><span class="line">                     [<span class="number">-2.</span>, <span class="number">0.</span>, <span class="number">2.</span>, <span class="number">4.</span>, <span class="number">6.</span>],</span><br><span class="line">                     [<span class="number">-6.</span>, <span class="number">-3.</span>, <span class="number">0.</span>, <span class="number">3.</span>, <span class="number">6.</span>]])</span><br><span class="line">x_vals = np.array([my_array,my_array + <span class="number">1</span>])</span><br><span class="line">x_data = tf.placeholder(tf.float32, shape=(<span class="number">3</span>, <span class="number">5</span>))</span><br></pre></td></tr></table></figure></p>
+<p>接下来，我们创建我们将使用的常量，用于矩阵乘法和加法： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m1 = tf.constant([[<span class="number">1.</span>],[<span class="number">0.</span>],[<span class="number">-1.</span>],[<span class="number">2.</span>],[<span class="number">4.</span>]])</span><br><span class="line">m2 = tf.contant([[<span class="number">2.</span>]])</span><br><span class="line">a1 = tf.constant([[<span class="number">10.</span>]])</span><br></pre></td></tr></table></figure></p>
+<p>然后声明操作，并且把它们加入到图： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prod1 = tf.matmul(x_data, m1)</span><br><span class="line">prod2 = tf.matmul(prod1, m2)</span><br><span class="line">add1 = tf.add(prod2, a1)</span><br></pre></td></tr></table></figure></p>
+<p>最后，将数据传入到图中： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">for</span> x_val <span class="keyword">in</span> x_vals:</span><br><span class="line">    print(sess.run(add1,feed_dict=&#123;x_data: x_val&#125;))</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用多层">使用多层</h2>
+<p>首先我们使用<code>numpy</code>创建一个2D图像。这个图像是一个<code>4 x 4</code>像素的图像。我们将在4个维度中创建，第一个和最后一个维度的大小都为1。需要注意的是一些TensorFlow图像函数都是操作一个四维图像。那些四个维度是指：图像变换，高度，宽度以及通道，为了得到一个通道的一个图像，我们设置了其中的2个维度为1： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x_shape = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">1</span>]</span><br><span class="line">x_val = np.random.uniform(size=x_shape)</span><br></pre></td></tr></table></figure></p>
+<p>接下来，创建一个<code>placeholder</code>： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x_data = tf.placeholder(tf.float32, shape=x_shape)</span><br></pre></td></tr></table></figure></p>
+<p>为了根据我们的 <span class="math inline">\(4 x 4\)</span>的图像创建一个移动窗口平均，我们将使用内建的函数，它将沿着$ 2 x 2$形状的一个窗口以及一个常数进行卷积。这个函数是TensorFlow中用于图像处理非常常用的一个函数，名字为<code>conv2d()</code>，它需要一个窗口的分段点积以及一个滤波器。同时，我们也必须为移动窗口在两个方向上指定一个<code>stride</code>。这里，我们将计算四个移动窗口平均，左上角，右上角，左下角以及右下角四个像素。通过创建一个<span class="math inline">\(2 x 2\)</span>的窗口以及在每个方向设置长度为2的<code>stride</code>。为了取平均，我们使用常数<span class="math inline">\(0.25\)</span>来卷积这个<span class="math inline">\(2 x 2\)</span>的窗口： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">my_filter = tf.constant(<span class="number">0.25</span>, shape=[<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line">my_strides = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line">mov_avg_layer = tf.nn.conv2d(x_data,my_filter,my_strides,</span><br><span class="line">                             padding=<span class="string">'SAME'</span>,name=<span class="string">'Moving_Avg_Window'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>现在我们定义一个自定义层，它将在<span class="math inline">\(2 x 2\)</span>输出的移动窗口平均上进行操作。自定义的函数首先使用另外一个 <span class="math inline">\(2 x 2\)</span>的矩阵张量与输入相乘，然后增加1。之后，我们对每个元素执行<code>sigmoid</code>并且返回<span class="math inline">\(2 x 2\)</span>矩阵。因为矩阵乘法只能操作二维的矩阵，我们需要扔掉额外的大小为1的图像的维度。<code>TensorFlow</code>可以使用内建函数<code>squeeze()</code>来处理这种情况。这里是我们定义的新的层： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">custom_layer</span><span class="params">(input_matrix)</span>:</span></span><br><span class="line">  input_matrix_sqeezed = tf.squeeze(input_matrix)</span><br><span class="line">  A = tf.constant([[<span class="number">1.</span>, <span class="number">2.</span>],[<span class="number">-1.</span>, <span class="number">3.</span>]])</span><br><span class="line">  b = tf.constant(<span class="number">1.</span>, shape=[<span class="number">2</span>, <span class="number">2</span>])</span><br><span class="line">  temp1 = tf.matmul(A, input_matrix_sqeezed)</span><br><span class="line">  temp = tf.add(temp1, b) <span class="comment"># Ax + b</span></span><br><span class="line">  <span class="keyword">return</span> tf.sigmoid(temp)</span><br></pre></td></tr></table></figure></p>
+<p>现在，我们需要把新的层放置到图中。我们将使用一个有名的范围（a named scope），使得它在计算图中是唯一的以及可展开和压缩的，如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">with</span> tf.name_scope(<span class="string">'Custom_Layer'</span>) <span class="keyword">as</span> scope:</span><br><span class="line">    custom_layer1 = custom_layer(mov_avg_layer)</span><br><span class="line">    print(sess.run(custom_layer1,feed_dict=&#123;x_data: x_val&#125;))</span><br></pre></td></tr></table></figure></p>
+<h1 id="实现损失函数">实现损失函数</h1>
+<p>损失函数对于机器学习算法很重要。它们度量了模型的输出与目标（真实）值之间的距离。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x_vals = tf.linspace(<span class="number">-1.</span>, <span class="number">1.</span>, <span class="number">500</span>)</span><br><span class="line">target = tf.constant(<span class="number">0.</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="l_2-norm-损失函数"><span class="math inline">\(L_2\)</span> norm 损失函数</h2>
+<p><span class="math inline">\(L_2\)</span> norm 损失函数也被称为欧几里得损失函数。它就是和目标值的距离的平方。这里我们将假设目标值为<span class="math inline">\(0\)</span>，从而计算损失函数。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l2_y_vals = tf.square(target - x_vals)</span><br><span class="line">l2_y_out = sess.run(l2_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="l_1-norm-损失函数"><span class="math inline">\(L_1\)</span> norm 损失函数</h2>
+<p><span class="math inline">\(L_1\)</span> norm 损失也被称为绝对值损失函数。不是取差的平方，而是取绝对值。<span class="math inline">\(L_1\)</span> norm 对于异常值比<span class="math inline">\(L_2\)</span> norm更好，因为对于很大的值，它不是陡峭的。但是，<span class="math inline">\(L_1\)</span>在目标值上不是平滑的，这会导致算法不能很好地收敛。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l1_y_vals = tf.abs(target - x_vals)</span><br><span class="line">l1_y_out = sess.run(l1_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="pseudo-huber-损失函数">Pseudo-Huber 损失函数</h2>
+<p>它是Huber损失的连续并且平滑的一个近似。这个损失函数在目标值附近是凸面的，并且对于异常值是不陡峭的，这样就获得了<span class="math inline">\(L_1\)</span> 和 <span class="math inline">\(L_2\)</span> norms的优点。它的形式取决于一个额外的参数，<span class="math inline">\(delta\)</span>,决定了它有多陡峭。我们将画出2幅图，分别是<span class="math inline">\(delta = 0.25\)</span>和<span class="math inline">\(delta2 = 5\)</span>来展示它们的不同： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">delta1 = tf.constant(<span class="number">0.25</span>)</span><br><span class="line">phuber1_y_vals = tf.mul(tf.square(delta1), tf.sqrt(<span class="number">1.</span> +    tf.square((target - x_vals) / delta1)) - <span class="number">1.</span>)</span><br><span class="line">phuber1_y_out = sess.run(phuber1_y_vals)</span><br><span class="line"></span><br><span class="line">delta2 = tf.constant(<span class="number">5</span>)</span><br><span class="line">phuber2_y_vals = tf.mul(tf.square(delta2), tf.sqrt(<span class="number">1.</span> + tf.square((target - x_vals) / delta2)) - <span class="number">1.</span>)</span><br><span class="line">phuber2_y_out = sess.run(phuber2_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="分类损失函数主要用于评估预测类别型结果的损失">分类损失函数主要用于评估预测类别型结果的损失</h2>
+<p>我们将需要重新定义预测结果(x_vals)以及目标变量。我们将保存输出并且在下一节中绘制它们。使用下面的代码： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x_vals = tf.linspace(<span class="number">-3.</span>, <span class="number">5.</span>, <span class="number">500</span>)</span><br><span class="line">target = tf.constant(<span class="number">1.</span>)</span><br><span class="line">targets = tf.fill([<span class="number">500</span>, ], <span class="number">1.</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="hinge-损失函数">Hinge 损失函数</h2>
+<p>它是在支持向量机中使用最多的损失函数，但是也能够被用在神经网络中。它意味着计算2个目标类别之间的损失，1和-1.在下面的代码中，我们正在使用目标值1，因此我们的预测结果离1越近，损失值就越小： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hinge_y_vals = tf.maximum(<span class="number">0.</span>, <span class="number">1.</span> - tf.mul(target, x_vals))</span><br><span class="line">hinge_y_out = sess.run(hinge_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="交叉熵损失函数">交叉熵损失函数</h2>
+<p>它是针对二分类的，有时候也被称为<code>logistic</code>损失函数。它出现在当我们在预测2个类别为0或者1的时候。我们期望度量实际的类别（0或者1）与预测的值之间的距离，预测的值通常可能会是0到1之间的一个实数。为了度量这个距离，我们能够使用信息论中的交叉熵公式，如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xentropy_y_vals = - tf.mul(target,tf.log(x_vals)) - tf.mul((<span class="number">1.</span> - target), tf.log(<span class="number">1.</span> - x_vals))</span><br><span class="line">xentropy_y_out = sess.run(xentropy_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="sigmoid-cross-entropy-loss">sigmoid cross entropy loss</h2>
+<p>它和上面的损失很像，区别是在我们将<code>x_values</code>放入交叉熵损失函数之前，把<code>x_values</code>变成了<code>sigmoid</code>函数。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xentropy_sigmoid_y_vals = tf.nn.sigmoid_cross_entropy_with_logits(x_vals, targets)</span><br><span class="line">xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="weighted-cross-entropy-loss">Weighted cross entropy loss</h2>
+<p>它是sigmoid_cross_entropy_with_logits 损失函数的加权版本。我们为正例提供一个权重。例如，我们对正例给予一个<span class="math inline">\(0.5\)</span>的权重，如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">weight = tf.constant(<span class="number">0.5</span>)</span><br><span class="line">xentropy_weighted_y_vals = tf.nn.weighted_cross_entropy_with_logits(x_vals, targets, weight)</span><br><span class="line">xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)</span><br></pre></td></tr></table></figure></p>
+<h2 id="softmax-cross-engropy-损失">softmax cross-engropy 损失</h2>
+<p>它可以处理非标准化（non-normalization）的输出。这个函数是被用来度量当仅含一个目标类别而不是多个的损失函数。由于这个原因，函数会把输出转换为一个概率分布，这是通过<code>softmax</code>实现的，然后依赖一个真实的概率分布来计算损失函数，如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unscaled_logits = tf.constant([[<span class="number">1.</span>, <span class="number">-3.</span>, <span class="number">10.</span>]])</span><br><span class="line">target_dist = tf.constant([[<span class="number">0.1</span>, <span class="number">0.02</span>, <span class="number">0.88</span>]])</span><br><span class="line">softmax_xentropy = tf.nn.softmax_cross_entropy_with_logits(unscaled_logits,target_dist)</span><br><span class="line">print(sess.run(softmax_xentropy))</span><br></pre></td></tr></table></figure></p>
+<h2 id="sparse-softmax-cross-engropy-损失">sparse softmax cross-engropy 损失</h2>
+<p>它和上面的情况类似，但不是让目标值成为一个概率分布，它是哪个类别为真的一个索引。</p>
+<h1 id="实现反向传播">实现反向传播</h1>
+<p>创建数据，placeholder以及A变量 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x_vals = np.random.normal(<span class="number">1</span>, <span class="number">0.1</span>, <span class="number">100</span>)</span><br><span class="line">y_vals = np.repeat(<span class="number">10.</span>, <span class="number">100</span>)</span><br><span class="line">x_data = tf.placeholder(shape=[<span class="number">1</span>], dtype=tf.float32)</span><br><span class="line">y_target = tf.placeholder(shape=[<span class="number">1</span>],dtype=tf.float32)</span><br><span class="line">A = tf.Variable(tf.random_normal(shape=[<span class="number">1</span>]))</span><br></pre></td></tr></table></figure></p>
+<p>我们把乘法操作加到图中： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_output = tf.mul(x_data, A)</span><br></pre></td></tr></table></figure></p>
+<p>接下来我们增加<span class="math inline">\(L_2\)</span>损失函数： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss = tf.square(my_output - y_target)</span><br></pre></td></tr></table></figure></p>
+<p>上面都是构造图，在运行图之前需要初始化所有的variable： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">init = tf.initialize_all_variables()</span><br></pre></td></tr></table></figure></p>
+<p>接下来我们必须声明一个方式在图中优化我们的变量。我们声明一个优化算法。大多数优化算法需要知道在每一步迭代中要“前进多远”。这个距离是由学习率控制的。如果我们的学习率太大了，那么我们的算法可能会越过最小值，但是如果我们的学习率太小了，那么我们的算法可能会花很长时间才能收敛；这个关系到梯度消失/爆炸问题。学习率对于收敛有一个很大的影响。这里我们暂时使用标准的梯度下降算法，存在许多不同的优化算法，它们操作不一样并且取决于不同问题能够做得更好或者更糟糕。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my_opt = tf.train.GradientDescentOptimizer(learning_rate=<span class="number">0.02</span>)</span><br><span class="line">train_step = my_opt.minimize(loss)</span><br></pre></td></tr></table></figure></p>
+<p>最后的步骤就是告诉TensorFlow训练多次。我们将训练101次并且每第25次迭代就输出我们的结果。为了训练，我们将选择一个随机数<span class="math inline">\(x\)</span>和<span class="math inline">\(y\)</span>，并把它们放入图中。TensorFlow将自动地计算损失，并且逐步改变偏置<span class="math inline">\(A\)</span>来最小化损失： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    rand_index = np.random.choice(<span class="number">100</span>)</span><br><span class="line">    rand_x = [x_vals[rand_index]]</span><br><span class="line">    rand_y = [y_vals[rand_index]]</span><br><span class="line">    sess.run(train_step, feed_dict = &#123;x_data: rand_x,y_target:rand_y&#125;)</span><br><span class="line">    <span class="keyword">if</span> (i + <span class="number">1</span>) % <span class="number">25</span> == <span class="number">0</span>:</span><br><span class="line">      print(<span class="string">'Step #'</span> + str(i+<span class="number">1</span>) + <span class="string">' A= '</span> + str(sess.run(A)))</span><br><span class="line">      print(<span class="string">'Loss = '</span>+ str(sess.run(loss,feed_dict=&#123;x_data:rand_x,y_target:rand_y&#125;)))</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/12/HMM推导及实现/" rel="next" title="HMM推导及实现(一)">
+                <i class="fa fa-chevron-left"></i> HMM推导及实现(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="Spencer" />
+            
+              <p class="site-author-name" itemprop="name">Spencer</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用tensorflow和python处理数据"><span class="nav-number">1.</span> <span class="nav-text">&#x4F7F;&#x7528;TensorFlow&#x548C;Python&#x5904;&#x7406;&#x6570;&#x636E;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layering-nested-operations"><span class="nav-number">2.</span> <span class="nav-text">Layering Nested Operations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用多层"><span class="nav-number">3.</span> <span class="nav-text">&#x4F7F;&#x7528;&#x591A;&#x5C42;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现损失函数"><span class="nav-number"></span> <span class="nav-text">&#x5B9E;&#x73B0;&#x635F;&#x5931;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#l_2-norm-损失函数"><span class="nav-number">1.</span> <span class="nav-text"><span class="math inline">\(L_2\)</span> norm &#x635F;&#x5931;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#l_1-norm-损失函数"><span class="nav-number">2.</span> <span class="nav-text"><span class="math inline">\(L_1\)</span> norm &#x635F;&#x5931;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pseudo-huber-损失函数"><span class="nav-number">3.</span> <span class="nav-text">Pseudo-Huber &#x635F;&#x5931;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类损失函数主要用于评估预测类别型结果的损失"><span class="nav-number">4.</span> <span class="nav-text">&#x5206;&#x7C7B;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x8BC4;&#x4F30;&#x9884;&#x6D4B;&#x7C7B;&#x522B;&#x578B;&#x7ED3;&#x679C;&#x7684;&#x635F;&#x5931;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hinge-损失函数"><span class="nav-number">5.</span> <span class="nav-text">Hinge &#x635F;&#x5931;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉熵损失函数"><span class="nav-number">6.</span> <span class="nav-text">&#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sigmoid-cross-entropy-loss"><span class="nav-number">7.</span> <span class="nav-text">sigmoid cross entropy loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weighted-cross-entropy-loss"><span class="nav-number">8.</span> <span class="nav-text">Weighted cross entropy loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax-cross-engropy-损失"><span class="nav-number">9.</span> <span class="nav-text">softmax cross-engropy &#x635F;&#x5931;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparse-softmax-cross-engropy-损失"><span class="nav-number">10.</span> <span class="nav-text">sparse softmax cross-engropy &#x635F;&#x5931;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现反向传播"><span class="nav-number"></span> <span class="nav-text">&#x5B9E;&#x73B0;&#x53CD;&#x5411;&#x4F20;&#x64AD;</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Spencer</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
