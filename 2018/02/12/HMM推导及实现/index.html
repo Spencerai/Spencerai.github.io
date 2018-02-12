@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/02/12/HMM推导及实现/前向-后向概率.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/12/HMM推导及实现/EM.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/12/HMM推导及实现/log.png">
-<meta property="og:updated_time" content="2018-02-12T11:30:06.291Z">
+<meta property="og:updated_time" content="2018-02-12T11:35:02.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM推导及实现(一)">
 <meta name="twitter:description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。">
@@ -333,9 +333,7 @@
 <li><p>(2)令 <span class="math inline">\(t=1\)</span></p></li>
 <li><p>(3)按照状态 <span class="math inline">\(i_t\)</span> 的观测概率分布 <span class="math inline">\(b_{i_t}(k)\)</span> 生成 <span class="math inline">\(o_t\)</span></p></li>
 <li><p>(4)按照状态 <span class="math inline">\(i_t\)</span> 的状态转移概率分布 <span class="math inline">\(\{a_{i_ti_{t+1}}\}\)</span> 产生状态 <span class="math inline">\(i_{t+1}\)</span>,<span class="math inline">\(i_{t+1}=1,2,\dots,N\)</span></p></li>
-<li><ol start="5" type="1">
-<li>令 <span class="math inline">\(t=t+1\)</span>；如果 <span class="math inline">\(t&lt;T\)</span>，转步(3)；否则，终止</li>
-</ol></li>
+<li><p>(5)令 <span class="math inline">\(t=t+1\)</span>；如果 <span class="math inline">\(t&lt;T\)</span>，转步(3)；否则，终止</p></li>
 </ul>
 <p>下面举一个例子，假设有4个盒子，每个盒子里都装有红白两种颜色的球，盒子里的红白球数由下表给出。</p>
 <table>
