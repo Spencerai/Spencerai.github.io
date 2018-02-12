@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/前向-后向概率.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/EM.png">
 <meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/log.png">
-<meta property="og:updated_time" content="2018-02-12T12:01:47.185Z">
+<meta property="og:updated_time" content="2018-02-12T12:04:20.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM推导及实现(一)">
 <meta name="twitter:description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。">
@@ -461,7 +461,15 @@ P(q_t=i,O|\lambda)=\alpha_t(i)\beta_t(i) \\
 \sum_{t=1}^T\gamma_t(i)
 \]</span> - 在观测<span class="math inline">\(O\)</span>下状态<span class="math inline">\(i\)</span>转移到状态<span class="math inline">\(j\)</span>的期望： <span class="math display">\[
 \sum_{t=1}^{T-1}\xi_t(i,j)
-\]</span> 这些公式后面会用到。至此，我们解决了HMM的概率计算问题。接下来时HMM的学习问题，即如何通过数据学得模型的参数 <span class="math inline">\(\lambda\)</span>。 ## HMM的学习问题 HMM的学习问题主要也有两个算法： - 有监督学习算法：数据包括观测序列和状态序列 - 鲍姆韦尔奇算法：数据只有观测序列 ### 有监督学习算法 估计参数最常用的是用极大似然估计，假设训练数据包含 <span class="math inline">\(S\)</span>个长度相同的观测序列和对应的状态序列 <span class="math inline">\(\{(O_1,I_1),(O_2,I_2),(O_3,I_3),\dots,(O_S,I_S)\}\)</span>。</p>
+\]</span> 这些公式后面会用到。至此，我们解决了HMM的概率计算问题。接下来时HMM的学习问题，即如何通过数据学得模型的参数 <span class="math inline">\(\lambda\)</span>。</p>
+<h2 id="hmm的学习问题">HMM的学习问题</h2>
+<p>HMM的学习问题主要也有两个算法：</p>
+<ul>
+<li><p>有监督学习算法：数据包括观测序列和状态序列</p></li>
+<li><p>鲍姆韦尔奇算法：数据只有观测序列</p></li>
+</ul>
+<h3 id="有监督学习算法">有监督学习算法</h3>
+<p>估计参数最常用的是用极大似然估计，假设训练数据包含 <span class="math inline">\(S\)</span>个长度相同的观测序列和对应的状态序列 <span class="math inline">\(\{(O_1,I_1),(O_2,I_2),(O_3,I_3),\dots,(O_S,I_S)\}\)</span>。</p>
 <ul>
 <li><p>转移概率 <span class="math inline">\(a_{ij}\)</span> 的估计<br>
 设样本中时刻 <span class="math inline">\(t\)</span> 处于状态 <span class="math inline">\(i\)</span> 时刻 <span class="math inline">\(t+1\)</span> 转移到状态 <span class="math inline">\(j\)</span>的频数为 <span class="math inline">\(A_{ij}\)</span>，那么状态转移概率 <span class="math inline">\(a_{ij}\)</span> 的估计是： <span class="math display">\[
@@ -471,10 +479,12 @@ P(q_t=i,O|\lambda)=\alpha_t(i)\beta_t(i) \\
 设样本中状态为 <span class="math inline">\(j\)</span> 并且观测为 <span class="math inline">\(k\)</span> 的频数是 <span class="math inline">\(B_{jk}\)</span>，那么状态为 <span class="math inline">\(j\)</span> 观测为 <span class="math inline">\(k\)</span> 的概率 <span class="math inline">\(b_j(k)\)</span> 的估计是： <span class="math display">\[
 \hat{b}_j(k)=\frac{B_{jk}}{\sum_{k=1}^{M}B_{jk}}
 \]</span></p></li>
-<li><p>初始状态概率 <span class="math inline">\(\pi_i\)</span> 的估计 <span class="math inline">\(\hat{\pi}_i\)</span>为 <span class="math inline">\(S\)</span> 个样本中初始状态为 <span class="math inline">\(q_i\)</span> 的频率。 ### 鲍姆韦尔奇（Baum-Welch）算法 假设给定训练数据只包含 <span class="math inline">\(S\)</span> 个长度为 <span class="math inline">\(T\)</span> 的观测序列 <span class="math inline">\(\{O_1,O_2,\dots,O_S\}\)</span> 而没有对应的状态序列，目标时学习隐马尔可夫模型 <span class="math inline">\(\lambda=(A,B,\pi)\)</span> 的参数。我们将观测序列数据看作观测数据 <span class="math inline">\(O\)</span>，状态序列数据看作不可观测的隐数据 <span class="math inline">\(I\)</span>，那么隐马尔科夫模型事实上是一个含有隐变量的概率模型 <span class="math display">\[
-P(O|\lambda)=\sum_IP(O|I,\lambda)P(I|\lambda)
-\]</span> 它的参数可以由EM算法实现。下面介绍一下EM算法的由来和推导。</p></li>
+<li><p>初始状态概率 <span class="math inline">\(\pi_i\)</span> 的估计 <span class="math inline">\(\hat{\pi}_i\)</span>为 <span class="math inline">\(S\)</span> 个样本中初始状态为 <span class="math inline">\(q_i\)</span> 的频率。</p></li>
 </ul>
+<h3 id="鲍姆韦尔奇baum-welch算法">鲍姆韦尔奇（Baum-Welch）算法</h3>
+<p>假设给定训练数据只包含 <span class="math inline">\(S\)</span> 个长度为 <span class="math inline">\(T\)</span> 的观测序列 <span class="math inline">\(\{O_1,O_2,\dots,O_S\}\)</span> 而没有对应的状态序列，目标时学习隐马尔可夫模型 <span class="math inline">\(\lambda=(A,B,\pi)\)</span> 的参数。我们将观测序列数据看作观测数据 <span class="math inline">\(O\)</span>，状态序列数据看作不可观测的隐数据 <span class="math inline">\(I\)</span>，那么隐马尔科夫模型事实上是一个含有隐变量的概率模型 <span class="math display">\[
+P(O|\lambda)=\sum_IP(O|I,\lambda)P(I|\lambda)
+\]</span> 它的参数可以由EM算法实现。下面介绍一下EM算法的由来和推导。</p>
 <h4 id="em算法">EM算法</h4>
 <p>一句话，EM算法是用来寻找含有隐变量的模型的参数的。假设有训练集 <span class="math inline">\(\{x^{(1)},x^{(2)},\dots,x^{(m)}\}\)</span>，包含 <span class="math inline">\(m\)</span> 个独立样本，希望从中找到该组数据的模型 <span class="math inline">\(p(x,z)\)</span> 的参数。思想也很简单，通过极大似然估计法，对观测到的数据<span class="math inline">\(x\)</span>取对数似然函数: <span class="math display">\[
 l(\theta)=\sum_{i=1}^m\log p(x;\theta)=\sum_{i=1}^m\log\sum_zp(x,z;\theta)
@@ -689,7 +699,7 @@ P^*=\underset{1\leq i \leq N}{\max}\delta_T(i)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm的概率计算问题"><span class="nav-number">1.</span> <span class="nav-text">HMM&#x7684;&#x6982;&#x7387;&#x8BA1;&#x7B97;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#暴力计算"><span class="nav-number">1.1.</span> <span class="nav-text">&#x66B4;&#x529B;&#x8BA1;&#x7B97;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">1.2.</span> <span class="nav-text">&#x524D;&#x5411;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">1.3.</span> <span class="nav-text">&#x540E;&#x5411;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前后向概率的关系"><span class="nav-number">1.4.</span> <span class="nav-text">&#x524D;&#x540E;&#x5411;&#x6982;&#x7387;&#x7684;&#x5173;&#x7CFB;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#em算法"><span class="nav-number">1.4.1.</span> <span class="nav-text">EM&#x7B97;&#x6CD5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm的预测问题"><span class="nav-number">2.</span> <span class="nav-text">HMM&#x7684;&#x9884;&#x6D4B;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">2.1.</span> <span class="nav-text">&#x8FD1;&#x4F3C;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维特比算法"><span class="nav-number">2.2.</span> <span class="nav-text">&#x7EF4;&#x7279;&#x6BD4;&#x7B97;&#x6CD5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number"></span> <span class="nav-text">&#x53C2;&#x8003;&#x6587;&#x732E;</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm的概率计算问题"><span class="nav-number">1.</span> <span class="nav-text">HMM&#x7684;&#x6982;&#x7387;&#x8BA1;&#x7B97;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#暴力计算"><span class="nav-number">1.1.</span> <span class="nav-text">&#x66B4;&#x529B;&#x8BA1;&#x7B97;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前向算法"><span class="nav-number">1.2.</span> <span class="nav-text">&#x524D;&#x5411;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后向算法"><span class="nav-number">1.3.</span> <span class="nav-text">&#x540E;&#x5411;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前后向概率的关系"><span class="nav-number">1.4.</span> <span class="nav-text">&#x524D;&#x540E;&#x5411;&#x6982;&#x7387;&#x7684;&#x5173;&#x7CFB;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm的学习问题"><span class="nav-number">2.</span> <span class="nav-text">HMM&#x7684;&#x5B66;&#x4E60;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有监督学习算法"><span class="nav-number">2.1.</span> <span class="nav-text">&#x6709;&#x76D1;&#x7763;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#鲍姆韦尔奇baum-welch算法"><span class="nav-number">2.2.</span> <span class="nav-text">&#x9C8D;&#x59C6;&#x97E6;&#x5C14;&#x5947;&#xFF08;Baum-Welch&#xFF09;&#x7B97;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#em算法"><span class="nav-number">2.2.1.</span> <span class="nav-text">EM&#x7B97;&#x6CD5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hmm的预测问题"><span class="nav-number">3.</span> <span class="nav-text">HMM&#x7684;&#x9884;&#x6D4B;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似算法"><span class="nav-number">3.1.</span> <span class="nav-text">&#x8FD1;&#x4F3C;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维特比算法"><span class="nav-number">3.2.</span> <span class="nav-text">&#x7EF4;&#x7279;&#x6BD4;&#x7B97;&#x6CD5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number"></span> <span class="nav-text">&#x53C2;&#x8003;&#x6587;&#x732E;</span></a></div>
             
 
           </div>
