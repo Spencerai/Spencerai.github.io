@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/LSTM细胞核的RNN例子.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/CLUE的系统架构.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/三个不同类别的item嵌入的样本的可视化.png">
-<meta property="og:updated_time" content="2018-02-12T15:29:45.577Z">
+<meta property="og:updated_time" content="2018-02-12T15:33:16.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
 <meta name="twitter:description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
@@ -370,8 +370,9 @@
 <li><p>随着用户浏览行为的变化，正常用户和欺诈的用户也随着时间变化，我们观察到了有意义的概念漂移现象[2]（参考图3(b)）。我们了连续微调我们的模型，我们已经构建了一个随着新数据不断增加地自动微调模型的机制。</p></li>
 <li><p>每天存在数千万用户活跃。这对于扩展深度学习计算力是一个挑战。我们的训练过程基于TensorFlow[1]，使用图形处理单元（GPUs）以及数据并行来加速计算。服务模块使用TensorFlow Serving 框架，能够每天实时分析数百万交易。</p></li>
 </ul>
-<p>总结下来，我们的主要贡献有： 1. 我们提出了一个新的方法在购买阶段来捕获细微的用户行为进行电子商务欺诈检测。使用一个基于RNN的方法，我们能够直接建模用户情境使用直观的但是可理解的特征。</p>
-<ol start="2" type="1">
+<p>总结下来，我们的主要贡献有：</p>
+<ol type="1">
+<li><p>我们提出了一个新的方法在购买阶段来捕获细微的用户行为进行电子商务欺诈检测。使用一个基于RNN的方法，我们能够直接建模用户情境使用直观的但是可理解的特征。</p></li>
 <li><p>尽管基于情境建模的方法是通用的，但是我们将它优化成欺诈应用场景。特别地，我们优化了高度不平衡数据集，以及由用户行为随时变化引起的概念漂移问题（concept drift problem）。</p></li>
 <li><p>最后但并不是最不重要的，我们在京东部署了CLUE，为超过220million活跃用户服务，达到了实时检测欺诈交易的目标。</p></li>
 </ol>
