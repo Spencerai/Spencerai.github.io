@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="反欺诈," />
 
 
 
@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，">
+<meta name="description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
+<meta name="keywords" content="反欺诈">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
 <meta property="og:url" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/index.html">
 <meta property="og:site_name" content="Learn Machine Learning">
-<meta property="og:description" content="摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，">
+<meta property="og:description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-12T12:53:11.264Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
+<meta property="og:updated_time" content="2018-02-12T13:17:50.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
-<meta name="twitter:description" content="摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，">
+<meta name="twitter:description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
 
 
 
@@ -341,8 +344,35 @@
       
 
       
-        <h1 id="摘要">摘要</h1>
-<p>交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，以及增量模型更新（incremental model update）。使用了8个月的真实的产品数据，我们的结果表明CLUE达到了比现存的欺诈检测方法的3倍提升。 <a id="more"></a></p>
+        <p>这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。</p>
+<h1 id="摘要">摘要</h1>
+<p>交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，以及增量模型更新（incremental model update）。使用了8个月的真实的生产数据，我们的结果表明CLUE达到了比现存的欺诈检测方法的3倍提升。 <a id="more"></a></p>
+<h1 id="引言">1 引言</h1>
+<p>零售电子商务销售依旧处于快速地发展中[10]。一个大的在线电子商务网站每天都会为百万用户的请求所服务。不幸地是，电子商务中的欺诈已经</p>
+<p>所有这些模型都使用了聚合的特征（aggregated features），例如一个用户上个月浏览项的总数，但是许多欺诈只能通过使用个体的行为才能发现而不是聚合的特征。而且，由于欺诈行为是随着时间而变化来避开检测，简单的特征或者规则很快就会失效。因此，对于一个欺诈检测系统有必要： 1） 以一种尽可能细微的方式（也被称为特征提取）捕获用户的行为； 2） 选择算法从海量的数据中检测欺诈。 算法必须忍受长时间的动态性以及噪音数据。从前的经验表明机器学习算法胜过基于规则的系统[2]。</p>
+<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
+<center>
+图 1.正常用户和欺诈用户浏览行为的例子
+</center>
+<h1 id="数据和特征提取">2 数据和特征提取</h1>
+<h2 id="数据预处理">2.1 数据预处理</h2>
+<h2 id="特征提取">2.2 特征提取</h2>
+<h1 id="基于rnn的欺诈会话检测">3 基于RNN的欺诈会话检测</h1>
+<h2 id="处理不平衡数据集">3.1 处理不平衡数据集</h2>
+<h2 id="模型更新">3.2 模型更新</h2>
+<h1 id="系统架构以及操作">4 系统架构以及操作</h1>
+<h2 id="训练-服务架构">4.1 训练-服务架构</h2>
+<h2 id="实现细节">4.2 实现细节</h2>
+<h1 id="性能评估">5 性能评估</h1>
+<h2 id="url-嵌入结果">5.1 URL 嵌入结果</h2>
+<h2 id="真实生产数据上的性能">5.2 真实生产数据上的性能</h2>
+<h2 id="不同结构的rnn的影响">5.3 不同结构的RNN的影响</h2>
+<h2 id="和传统的方法比较">5.4 和传统的方法比较</h2>
+<h2 id="关键设计选择的影响">5.5 关键设计选择的影响</h2>
+<h2 id="模型更新-1">5.6 模型更新</h2>
+<h1 id="相关的工作">6 相关的工作</h1>
+<h1 id="总结以及未来的工作">7 总结以及未来的工作</h1>
+<h1 id="参考文献">参考文献</h1>
 
       
     </div>
@@ -357,6 +387,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反欺诈/" rel="tag"># 反欺诈</a>
+          
+        </div>
       
 
       
@@ -478,6 +514,15 @@
             
 
             
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
 
           </nav>
 
@@ -508,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">&#x6458;&#x8981;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">&#x6458;&#x8981;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">2.</span> <span class="nav-text">1 &#x5F15;&#x8A00;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据和特征提取"><span class="nav-number">3.</span> <span class="nav-text">2 &#x6570;&#x636E;&#x548C;&#x7279;&#x5F81;&#x63D0;&#x53D6;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 &#x6570;&#x636E;&#x9884;&#x5904;&#x7406;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征提取"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 &#x7279;&#x5F81;&#x63D0;&#x53D6;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于rnn的欺诈会话检测"><span class="nav-number">4.</span> <span class="nav-text">3 &#x57FA;&#x4E8E;RNN&#x7684;&#x6B3A;&#x8BC8;&#x4F1A;&#x8BDD;&#x68C0;&#x6D4B;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#处理不平衡数据集"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 &#x5904;&#x7406;&#x4E0D;&#x5E73;&#x8861;&#x6570;&#x636E;&#x96C6;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型更新"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 &#x6A21;&#x578B;&#x66F4;&#x65B0;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统架构以及操作"><span class="nav-number">5.</span> <span class="nav-text">4 &#x7CFB;&#x7EDF;&#x67B6;&#x6784;&#x4EE5;&#x53CA;&#x64CD;&#x4F5C;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练-服务架构"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 &#x8BAD;&#x7EC3;-&#x670D;&#x52A1;&#x67B6;&#x6784;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现细节"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 &#x5B9E;&#x73B0;&#x7EC6;&#x8282;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能评估"><span class="nav-number">6.</span> <span class="nav-text">5 &#x6027;&#x80FD;&#x8BC4;&#x4F30;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#url-嵌入结果"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 URL &#x5D4C;&#x5165;&#x7ED3;&#x679C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#真实生产数据上的性能"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 &#x771F;&#x5B9E;&#x751F;&#x4EA7;&#x6570;&#x636E;&#x4E0A;&#x7684;&#x6027;&#x80FD;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同结构的rnn的影响"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 &#x4E0D;&#x540C;&#x7ED3;&#x6784;&#x7684;RNN&#x7684;&#x5F71;&#x54CD;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#和传统的方法比较"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 &#x548C;&#x4F20;&#x7EDF;&#x7684;&#x65B9;&#x6CD5;&#x6BD4;&#x8F83;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键设计选择的影响"><span class="nav-number">6.5.</span> <span class="nav-text">5.5 &#x5173;&#x952E;&#x8BBE;&#x8BA1;&#x9009;&#x62E9;&#x7684;&#x5F71;&#x54CD;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型更新-1"><span class="nav-number">6.6.</span> <span class="nav-text">5.6 &#x6A21;&#x578B;&#x66F4;&#x65B0;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关的工作"><span class="nav-number">7.</span> <span class="nav-text">6 &#x76F8;&#x5173;&#x7684;&#x5DE5;&#x4F5C;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结以及未来的工作"><span class="nav-number">8.</span> <span class="nav-text">7 &#x603B;&#x7ED3;&#x4EE5;&#x53CA;&#x672A;&#x6765;&#x7684;&#x5DE5;&#x4F5C;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number">9.</span> <span class="nav-text">&#x53C2;&#x8003;&#x6587;&#x732E;</span></a></li></ol></div>
             
 
           </div>
