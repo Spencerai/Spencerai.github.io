@@ -187,6 +187,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
@@ -322,7 +332,7 @@
           <p>隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/03/HMM推导及实现/#more" rel="contents">
+            <a class="btn" href="/2018/02/03/HMM推导及实现/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -470,11 +480,170 @@
 <p>交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，以及增量模型更新（incremental model update）。使用了8个月的真实的生产数据，我们的结果表明CLUE达到了比现存的欺诈检测方法的3倍提升。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/#more" rel="contents">
+            <a class="btn" href="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/17/Neural Architectures for Named Entity Recognition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spencer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Spencer's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/17/Neural Architectures for Named Entity Recognition/" itemprop="url">Neural Architectures for Named Entity Recognition</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:00:00+08:00">
+                2017-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这周读这篇使深度学习来解决命名实体识别。这篇论文发表于NAACL2016。记录下一些笔记和思考，争取保持一周一篇论文，也还要练练写代码哇。</p>
+<h1 id="准备知识">准备知识</h1>
+<p>命名实体识别（named entity recognition）指识别专有名词，如地名，人名，机构名，时间等。假设tag只有三种：B-LOC,I-LOC,O。其中B表示开头，I表示中间，LOC表示地名，O表示不是实体。</p>
+<h1 id="abstract">0 Abstract</h1>
+<h1 id="introduction">1 Introduction</h1>
+<h1 id="lstm-crf-model">2 LSTM-CRF Model</h1>
+<p>我们给出了LSTM和CRF的一个简短秒数，并且提出了一个混合标注架构。这个架构和Collobert et al.(2011)以及Huang et al.(2015)提出来的是类似的。</p>
+<h2 id="lstm">2.1 LSTM</h2>
+<p>对于一个给定的包含 <span class="math inline">\(n\)</span> 个单词的句子 <span class="math inline">\((x_1,x_2,\dots,x_n)\)</span>，每个单词是一个 <span class="math inline">\(d\)</span> 维向量，一个LSTM计算句子中每个单词 <span class="math inline">\(t\)</span> 左边部分上下文的 <span class="math inline">\(\overrightarrow{\mathbf{h}_t}\)</span> 表示。显而易见地，生成右边上下文 <span class="math inline">\(\overleftarrow{\mathbf{h}_t}\)</span> 的一个表示也能够增加有用的信息。这个可以通过使用第二个LSTM从相反的方向读入同样的序列。前一个我们指前向LSTM，而后一个作为向后的LSTM。这是两个不同参数的网络。这个前向和后向的LSTM对又被称为双向LSTM（Graves and Schmidhuber,2005）。</p>
+<p>这个模型使用的词表示通过连接它的左边和右边上下文表示， <span class="math inline">\(\mathbf{h}_t=[ \overrightarrow{\mathbf{h}_t};\overleftarrow{\mathbf{h}_t}]\)</span> 的。这些表示包含一个上下文中的词的表示，它对于许多标注应用是有用的。</p>
+<h2 id="crf-tagging-models">2.2 CRF Tagging Models</h2>
+<p>一个简单的，但是非常有效的标注模型是使用 <span class="math inline">\(\mathbf{h}_t\)</span> 作为特征来为每个输出 <span class="math inline">\(y_t\)</span> 做独立的标注决策（Ling et al., 2015b）。尽管这个模型在词性标注这样的简单问题上取得了成功，但是当输出标记之间是有依赖的时候，它的独立性分类决策是有局限性的。NER就是一个这样的任务，因为描述可解释的标记序列的“语法”强制要求了一些不可能在独立假设上建模的困难限制（例如，I-PER不能够紧跟B-LOC；细节见2.4）。</p>
+<p>因此，不是独立的建模标注决策，我们联合一个条件随机场（Lafferty et al.,2001）来建模它们。对于一个输入序列 <span class="math display">\[
+\mathbf{X}=(\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_n)
+\]</span> 我们考虑 <span class="math inline">\(\mathbf{P}\)</span> 为双向LSTM网络的输出分数的矩阵。<span class="math inline">\(\mathbf{P}\)</span> 的大小为 <span class="math inline">\(n \times k\)</span>，其中 <span class="math inline">\(k\)</span> 是不同标记的个数， <span class="math inline">\(P_{i,j}\)</span> 为相应的句子中第 <span class="math inline">\(i\)</span> 个单词的第 <span class="math inline">\(j\)</span> 个标注的分数。对于一个序列的预测 <span class="math display">\[
+\mathbf{y}=(y_1,y_2,\dots,y_n)，
+\]</span> 我们定义它的分数为 <span class="math display">\[
+s(\mathbf{X},\mathbf{y})=\sum_{i=1}^n A_{y_i,y_{i+1}} + \sum_{i=1}^nP_{i,y_i}
+\]</span> 其中 <span class="math inline">\(\mathbb{\mathbf{A}}\)</span> 是一个转换分数的矩阵，它使得 <span class="math inline">\(\mathbf{A}_{i,j}\)</span> 代表从标记 <span class="math inline">\(i\)</span> 到 <span class="math inline">\(j\)</span> 的一个转换的分数。<span class="math inline">\(y_0\)</span> 以及 <span class="math inline">\(y_n\)</span> 是一个句子的开始和结束标记，把它们也加入到所有可能的标记集合中。 因此 <span class="math inline">\(\mathbb{\mathbf{A}}\)</span> 就是一个大小为 <span class="math inline">\(k+2\)</span> 的方阵。</p>
+<p>softmax在所有可能的标记序列上生成一个序列 <span class="math inline">\(\mathbf{y}\)</span> 的概率: <span class="math display">\[
+p(\mathbf{y}|\mathbf{X})=\frac{e^{s(\mathbf{X},\mathbf{y})}}{\sum_{\tilde{\mathbf{y}} \in \mathbf{Y}_{\mathbf{X}}} e^{s(\mathbf{X},\tilde{\mathbf{y}})}}
+\]</span> 在训练期间，我们最大化正确标记序列的对数概率： <span class="math display">\[
+\log(p(\mathbf{y}|\mathbf{X})) = s(\mathbf{X},\mathbf{y}) - \log(\sum_{\tilde{\mathbf{y}} \in \mathbf{Y}_{\mathbf{X}}} e^{s(\mathbf{X},\tilde{\mathbf{y}})})\\=s(\mathbf{X},\mathbf{y})-\underset{\tilde{y} \in \mathbf{Y}_{\mathbf{X}}}{\log add} \ s(\mathbf{X},\tilde{\mathbf{y}}))
+\]</span></p>
+<h2 id="parameterization-and-training">2.3 Parameterization and Training</h2>
+<p>每个词（token）的标记决策（也就是 <span class="math inline">\(P_{i,y}\)</span> ）被定义为使用一个双向LSTM计算出来的上下文的词嵌入之间的点积，实际上和Ling et al.(2015b)的词性标注模型是一样的，把它们组合成二元兼容分数（也就是 <span class="math inline">\(A_{y,y&#39;}\)</span>）。这个结构如图1所示。</p>
+<h2 id="tagging-schemes">2.4 Tagging Schemes</h2>
+<h1 id="transition-based-chunking-model">3 Transition-Based Chunking Model</h1>
+<h2 id="chunking-algorithm">3.1 Chunking Algorithm</h2>
+<h2 id="representing-labeled-chunks">3.2 Representing Labeled Chunks</h2>
+<h1 id="input-word-embeddings">4 Input Word Embeddings</h1>
+<h2 id="character-based-models-of-words">4.1 Character-based models of words</h2>
+<h2 id="pretrained-embeddings">4.2 Pretrained embeddings</h2>
+<h2 id="dropout-training">4.3 Dropout training</h2>
+<h1 id="experiments">5 Experiments</h1>
+<h2 id="training">5.1 Training</h2>
+<h2 id="data-sets">5.2 Data Sets</h2>
+<h2 id="results">5.3 Results</h2>
+<h2 id="network-architecture">5.4 Network architecture</h2>
+<h1 id="related-work">6 Related Work</h1>
+
+          
         
       
     </div>
@@ -595,7 +764,7 @@
 <p><code>softsign</code>函数也被用作激活函数。这个函数的形式为 <span class="math inline">\(\frac{x}{|x| + 1}\)</span>，它被认为是<code>sign</code>函数的连续近似。可以使用下面的代码实现： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(sess.run(tf.nn.softsign([<span class="number">-1.</span>, <span class="number">0.</span>, <span class="number">-1.</span>])))</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/11/TensorFlow基础知识/#more" rel="contents">
+            <a class="btn" href="/2017/12/11/TensorFlow基础知识/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -803,7 +972,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
