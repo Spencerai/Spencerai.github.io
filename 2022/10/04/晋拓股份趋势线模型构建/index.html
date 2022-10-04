@@ -81,21 +81,21 @@
 
 <meta name="description" content="以一只新股晋拓股份(603211)构建趋势线模型。 我们看到整体的行情如下图所示：行情是从7.86开始起涨到26.91，这是一波主升浪，这一波主升浪的特点基本可以归纳为单边上涨。由于这种单边上涨，无法画出趋势线，然而当行情创了新低，我们认为终结了这一波的主升浪。 我们随手画出了几个关键位。 当行情没有创新高的时候，并且创了新低的时候，我们就需要考虑行情要么走大级别调整，要么走趋势反转。截至到目前">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HMM推导及实现(一)">
-<meta property="og:url" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/index.html">
+<meta property="og:title" content="晋拓股份趋势线模型构建-跟踪交易">
+<meta property="og:url" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/index.html">
 <meta property="og:site_name" content="写写交易">
 <meta property="og:description" content="以一只新股晋拓股份(603211)构建趋势线模型。 我们看到整体的行情如下图所示：行情是从7.86开始起涨到26.91，这是一波主升浪，这一波主升浪的特点基本可以归纳为单边上涨。由于这种单边上涨，无法画出趋势线，然而当行情创了新低，我们认为终结了这一波的主升浪。 我们随手画出了几个关键位。 当行情没有创新高的时候，并且创了新低的时候，我们就需要考虑行情要么走大级别调整，要么走趋势反转。截至到目前">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/1.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/2.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/3.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/4.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/5.png">
-<meta property="og:updated_time" content="2022-10-04T13:02:57.666Z">
+<meta property="og:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/1.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/2.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/3.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/4.png">
+<meta property="og:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/5.png">
+<meta property="og:updated_time" content="2022-10-04T13:17:44.211Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HMM推导及实现(一)">
+<meta name="twitter:title" content="晋拓股份趋势线模型构建-跟踪交易">
 <meta name="twitter:description" content="以一只新股晋拓股份(603211)构建趋势线模型。 我们看到整体的行情如下图所示：行情是从7.86开始起涨到26.91，这是一波主升浪，这一波主升浪的特点基本可以归纳为单边上涨。由于这种单边上涨，无法画出趋势线，然而当行情创了新低，我们认为终结了这一波的主升浪。 我们随手画出了几个关键位。 当行情没有创新高的时候，并且创了新低的时候，我们就需要考虑行情要么走大级别调整，要么走趋势反转。截至到目前">
-<meta name="twitter:image" content="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/1.png">
+<meta name="twitter:image" content="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/1.png">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/"/>
+  <link rel="canonical" href="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/"/>
 
 
 
 
 
-  <title>HMM推导及实现(一) | 写写交易</title>
+  <title>晋拓股份趋势线模型构建-跟踪交易 | 写写交易</title>
   
 
 
@@ -268,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/晋拓股份趋势线模型构建/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/10/04/晋拓股份趋势线模型构建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Spencer">
@@ -285,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">HMM推导及实现(一)</h1>
+          <h1 class="post-title" itemprop="name headline">晋拓股份趋势线模型构建-跟踪交易</h1>
         
 
         <div class="post-meta">
@@ -297,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-03T00:00:00+08:00">
-                2018-02-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-10-04T00:00:00+08:00">
+                2022-10-04
               </time>
             
 
@@ -335,16 +335,16 @@
       
 
       
-        <p>以一只新股晋拓股份(603211)构建趋势线模型。 我们看到整体的行情如下图所示：<img src="/2018/02/03/晋拓股份趋势线模型构建/1.png" alt="行情1">行情是从7.86开始起涨到26.91，这是一波主升浪，这一波主升浪的特点基本可以归纳为单边上涨。由于这种单边上涨，无法画出趋势线，然而当行情创了新低，我们认为终结了这一波的主升浪。<img src="/2018/02/03/晋拓股份趋势线模型构建/2.png" alt="行情2"></p>
+        <p>以一只新股晋拓股份(603211)构建趋势线模型。 我们看到整体的行情如下图所示：<img src="/2022/10/04/晋拓股份趋势线模型构建/1.png" alt="行情1">行情是从7.86开始起涨到26.91，这是一波主升浪，这一波主升浪的特点基本可以归纳为单边上涨。由于这种单边上涨，无法画出趋势线，然而当行情创了新低，我们认为终结了这一波的主升浪。<img src="/2022/10/04/晋拓股份趋势线模型构建/2.png" alt="行情2"></p>
 <p>我们随手画出了几个关键位。 当行情没有创新高的时候，并且创了新低的时候，我们就需要考虑行情要么走大级别调整，要么走趋势反转。截至到目前，我们已经没法100%判断是哪一种情况。于是我们保留2种可能性的分析。</p>
-<p>首先，我们考虑行情是大级别调整，回调的形式分为：停顿、形态、单边和波段。接下来，我们需要预估并且匹配是哪一种回调。首先需要排除的是停顿，因为停顿基本是出现在最小级别的行情中的，然而排除单边，因为这里有震荡，那么就剩下形态和波段2种可能性。根据后来的行情，我们判断出现一个大的形态的可能性会更大。我们画出下降趋势线。 <img src="/2018/02/03/晋拓股份趋势线模型构建/3.png" alt="行情3"> 于是我们开始对这个行情进行级别的划分。 <a id="more"></a></p>
-<p>我们从最小级别开始构建我们的模型。 <img src="/2018/02/03/晋拓股份趋势线模型构建/4.png" alt="行情4"> 根据下面的图，我们其实可以看到现在没有交易机会。继续等待。</p>
+<p>首先，我们考虑行情是大级别调整，回调的形式分为：停顿、形态、单边和波段。接下来，我们需要预估并且匹配是哪一种回调。首先需要排除的是停顿，因为停顿基本是出现在最小级别的行情中的，然而排除单边，因为这里有震荡，那么就剩下形态和波段2种可能性。根据后来的行情，我们判断出现一个大的形态的可能性会更大。我们画出下降趋势线。 <img src="/2022/10/04/晋拓股份趋势线模型构建/3.png" alt="行情3"> 于是我们开始对这个行情进行级别的划分。 <a id="more"></a></p>
+<p>我们从最小级别开始构建我们的模型。 <img src="/2022/10/04/晋拓股份趋势线模型构建/4.png" alt="行情4"> 根据下面的图，我们其实可以看到现在没有交易机会。继续等待。</p>
 <ul>
 <li><p>要么等行情站上15.64后，考虑逢低多；</p></li>
 <li><p>要么等行情下跌到蓝色通道线下轨，再考虑买入；</p></li>
 </ul>
 <figure>
-<img src="/2018/02/03/晋拓股份趋势线模型构建/5.png" alt="行情5"><figcaption aria-hidden="true">行情5</figcaption>
+<img src="/2022/10/04/晋拓股份趋势线模型构建/5.png" alt="行情5"><figcaption aria-hidden="true">行情5</figcaption>
 </figure>
 
       
@@ -370,8 +370,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/" rel="next" title="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
-                <i class="fa fa-chevron-left"></i> Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks
+              <a href="/2022/10/03/BTCUSDT-永续-20221003-行情推演/" rel="next" title="BTC-短线交易法">
+                <i class="fa fa-chevron-left"></i> BTC-短线交易法
               </a>
             
           </div>
@@ -379,10 +379,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/03/HMM推导及实现/" rel="prev" title="HMM推导及实现(一)">
-                HMM推导及实现(一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
