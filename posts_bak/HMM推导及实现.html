@@ -80,22 +80,22 @@
 
 
 <meta name="description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="HMM推导及实现(一)">
-<meta property="og:url" content="http://yoursite.com/2018/02/03/HMM推导及实现/index.html">
+<meta property="og:url" content="http://yoursite.com/posts_bak/HMM推导及实现.html">
 <meta property="og:site_name" content="伪交易员的交易日记">
 <meta property="og:description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/马尔科夫链.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/隐马尔可夫模型.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/前向-后向概率.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/EM.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/log.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/马尔科夫链.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/隐马尔可夫模型.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/前向-后向概率.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/EM.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/log.png">
 <meta property="og:updated_time" content="2018-02-12T12:04:20.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HMM推导及实现(一)">
 <meta name="twitter:description" content="隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。">
-<meta name="twitter:image" content="http://yoursite.com/2018/02/03/HMM推导及实现/马尔科夫链.png">
+<meta name="twitter:image" content="http://yoursite.com/posts_bak/马尔科夫链.png">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/03/HMM推导及实现/"/>
+  <link rel="canonical" href="http://yoursite.com/posts_bak/HMM推导及实现.html"/>
 
 
 
@@ -256,88 +256,26 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/HMM推导及实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="星辰大海">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="伪交易员的交易日记">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">HMM推导及实现(一)</h1>
-        
+	<h1 class="post-title" itemprop="name headline">HMM推导及实现(一)</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-03T00:00:00+08:00">
-                2018-02-03
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。<a id="more"></a> 如下图所示：<img src="/2018/02/03/HMM推导及实现/马尔科夫链.png" alt="马尔科夫链"></p>
+      <div class="post-body">
+        
+        
+          <p>隐马尔可夫模型（Hidden Markov Model，HMM）是马尔可夫过程的一个扩展，而马尔可夫过程是指满足马尔可夫假设的随机过程。马尔可夫假设是指一个随机变量的当前状态只依赖于前一个随机变量的状态，和其他的因素都无关。<a id="more"></a> 如下图所示：<img src="/posts_bak/马尔科夫链.png" alt="马尔科夫链"></p>
 <p>其中 <span class="math inline">\(z_n\)</span> 的值只受 <span class="math inline">\(z_{n-1}\)</span> 的值影响。</p>
-<p>然后隐马尔可夫模型再此基础上引入了这些状态的输出，也就是描述了由一个隐藏的马尔可夫链生成不可观测的状态随机序列，再由各个状态生成观测随机序列的过程。如下图所示：<img src="/2018/02/03/HMM推导及实现/隐马尔可夫模型.png" alt="隐马尔可夫模型"></p>
+<p>然后隐马尔可夫模型再此基础上引入了这些状态的输出，也就是描述了由一个隐藏的马尔可夫链生成不可观测的状态随机序列，再由各个状态生成观测随机序列的过程。如下图所示：<img src="/posts_bak/隐马尔可夫模型.png" alt="隐马尔可夫模型"></p>
 <p>其中，<span class="math inline">\(z_1,z_2,\dots,z_{n-1},z_{n},z_{n+1}\)</span> 即不可观测的状态随机序列，它们是一个马尔可夫链，并且每个状态又生成了可观测的状态序列 <span class="math inline">\(x_1,x_2,\dots,x_{n-1},x_n,x_{n+1}\)</span>。而在现实数据中，存在很多这样的问题，比如大家都知道的中文分词问题，每个字都是一个可观测的值，它们组成了一个可观测序列，但是每个字是如何组成一个词的这个状态我们是无法直接观测到的，所以被称为隐变量，例如可以假设这里的隐变量有以下的状态序列空间 <span class="math inline">\(\{B,M,S,E\}\)</span>,其中<span class="math inline">\(B\)</span>表示这个字是一个词的开头组成，<span class="math inline">\(M\)</span>表示这个字是一个词的中间部分，<span class="math inline">\(S\)</span> 表示这个字是单独成词，而<span class="math inline">\(E\)</span>表示这个字在这个词的结束。如果是这样我们就能知道这个词是由哪些字组成的，比如“为人民服务”这个字序列对应的隐状态标记序列为“<span class="math inline">\(SBEBE\)</span>”，这样我们就能够达到中文分词的目的了。所以，当我们输入观测序列给HMM，它就能够给我们这个观测序列的标记序列，这个问题被称为HMM的预测问题，这里先不展开，后面再详细说。</p>
 <p>接下来，我们深入研究一下HMM的一些问题。通过上面的讲解，已经知道了隐变量有一个可能的状态序列，将其定义为 <span class="math inline">\(I=\{i_1,i_2,\dots,i_{T-1},i_{T} \}\)</span> （可以认为是HMM的Input，以后我们就把它叫做状态序列，<span class="math inline">\(T\)</span> 表示此时这个HMM的状态序列的长度），观测变量也有一个可能的取值，它们对应为状态序列 <span class="math inline">\(I\)</span>的输出，定义为 <span class="math inline">\(O=\{o_1,o_2,\dots,o_T \}\)</span>（可以认为是HMM的Output，称为观测序列）。需要注意的是，这里的 <span class="math inline">\(i_{index} 以及 o_{index}\)</span> 表示的是所有状态和观测集合的位置。我们还需要定义一个所有状态（隐变量）的集合为 <span class="math inline">\(Q=\{q_1,q_2,\dots,q_N\}\)</span> ，<span class="math inline">\(N\)</span> 表示所有状态的可能个数，所有可观测状态的集合为 <span class="math inline">\(V=\{v_1,v_2,\dots,v_M\}，M为所有可能的观测状态\)</span>。那么<span class="math inline">\(I\)</span>就是从状态集合<span class="math inline">\(Q\)</span>中抽取出来的序列，<span class="math inline">\(O\)</span>就是从观测集合<span class="math inline">\(V\)</span>中抽取出来的序列。</p>
 <p>在这个HMM的图中，每一个状态都有一个初始概率，定义为一个向量 <span class="math inline">\(\pi = (\pi_i),\pi_i=P(i_1=q_i)\)</span>，表示时刻 <span class="math inline">\(t=1\)</span> 的状态为 <span class="math inline">\(q_i\)</span> 的概率。状态和状态之间都有一个依据时间的转移概率，比如状态 <span class="math inline">\(i_1\)</span>从时间 <span class="math inline">\(t\)</span>在下一个时间 <span class="math inline">\(t+1\)</span>变成状态 <span class="math inline">\(i_2\)</span> 会有一个概率，为了方便，我们记时刻<span class="math inline">\(t\)</span>时的状态为 <span class="math inline">\(q_t\)</span>，那么把这个转移概率表示成 <span class="math inline">\(a_{ij}=p(q_{t+1} = j | q_t = i)\)</span>，因为是转移，后一个状态依赖于前一个状态，所以这里是条件概率。然而，每一个状态从时刻 <span class="math inline">\(t\)</span> 可能会在下一个时刻 <span class="math inline">\(t+1\)</span> 转移到状态集合中的任何一个状态，状态一共有 <span class="math inline">\(N\)</span> 个，所以概率有 <span class="math inline">\(N \times N\)</span> 个，于是把所有的概率表示为一个概率矩阵 <span class="math inline">\(A = [a_{ij}]_{N \times N}\)</span>，这个矩阵被称为状态概率矩阵。同样地，我们的状态会在 <span class="math inline">\(t\)</span> 时刻生成一个观测，状态有 <span class="math inline">\(N\)</span> 个，观测有 <span class="math inline">\(M\)</span> 个，会得到一个 <span class="math inline">\(N \times M\)</span> 的观测概率矩阵 <span class="math inline">\(B=[b_{j}(k)]_{N \times M}\)</span>，其中 <span class="math inline">\(b_j(k) = P(o_t=v_k |i_t = q_j),k=1,2,\dots,M;j=1,2,\dots,N\)</span>，表示，在时刻 <span class="math inline">\(t\)</span>处于状态<span class="math inline">\(q_j\)</span>的条件下生成观测 <span class="math inline">\(v_k\)</span> 的概率。</p>
@@ -419,7 +357,7 @@ P(O|\lambda)=\sum_{I}P(O,I|\lambda)(别说你这步也看不懂)=\sum_{I}P(O|I,\
 \]</span> 上面这个就是最终的观测序列的概率。这个式子通过一个所有状态序列 <span class="math inline">\(I\)</span> 的加和，内部是一个乘积的形式，一共有 <span class="math inline">\(2T\)</span> 个因子相乘，而外面的加和因为 <span class="math inline">\(I\)</span>的状态序列是从所有 <span class="math inline">\(N\)</span> 个状态集合中选出来的，即每个状态有 <span class="math inline">\(N\)</span>种选择，一共有 <span class="math inline">\(T\)</span> 个序列，所以一共有 <span class="math inline">\(N^T\)</span>，根据乘法法则那么一共要计算 <span class="math inline">\(2TN^T\)</span> 次，时间复杂度也就是 <span class="math inline">\(O(TN^T)\)</span>，是指数级的。所以，我们需要找更快的算法。</p>
 <h3 id="前向算法">前向算法</h3>
 <p>前向算法的思想是动态规划，通过递推的方式求得最终答案。定义一个前向概率，如下图：</p>
-<p><img src="/2018/02/03/HMM推导及实现/前向-后向概率.png" alt="前向-后向概率"> 左半边虚线是前向概率的定义，右半边虚线是后向概率的定义。无论是前向概率还是后向概率，都是通过状态和观测来定义的，前向概率是指划定一个时间 <span class="math inline">\(t\)</span>，此时状态 <span class="math inline">\(q_t = i\)</span>，观测必须是 <span class="math inline">\(\{y_1,y_2,\dots,y_{t-1},y_{t}\}\)</span>，满足这两种情况的概率就是前向概率，用数学的方法说就是 <span class="math display">\[
+<p><img src="/posts_bak/前向-后向概率.png" alt="前向-后向概率"> 左半边虚线是前向概率的定义，右半边虚线是后向概率的定义。无论是前向概率还是后向概率，都是通过状态和观测来定义的，前向概率是指划定一个时间 <span class="math inline">\(t\)</span>，此时状态 <span class="math inline">\(q_t = i\)</span>，观测必须是 <span class="math inline">\(\{y_1,y_2,\dots,y_{t-1},y_{t}\}\)</span>，满足这两种情况的概率就是前向概率，用数学的方法说就是 <span class="math display">\[
 \alpha_t(i)=P(y_1,y_2,\dots,y_t,q_t=i|\lambda)
 \]</span> 后向概率和前向概率基本差不多，也是划到 <span class="math inline">\(q_t\)</span>，只不过是向后看，但是不包括观测 <span class="math inline">\(y_t\)</span>，而是从 <span class="math inline">\(y_{t+1}\)</span> 开始，即要求观测是 <span class="math inline">\(y_{t+1},y_{t+2},\dots,y_{T}\)</span>，状态是 <span class="math inline">\(q_t = i\)</span>，即后向概率为： <span class="math display">\[
 \beta_t(i) = P(y_{t+1},y_{t+2},\dots,y_{T} |q_t=i,\lambda)
@@ -509,7 +447,7 @@ P(O|\lambda)=\sum_IP(O|I,\lambda)P(I|\lambda)
 <p>一句话，EM算法是用来寻找含有隐变量的模型的参数的。假设有训练集 <span class="math inline">\(\{x^{(1)},x^{(2)},\dots,x^{(m)}\}\)</span>，包含 <span class="math inline">\(m\)</span> 个独立样本，希望从中找到该组数据的模型 <span class="math inline">\(p(x,z)\)</span> 的参数。思想也很简单，通过极大似然估计法，对观测到的数据<span class="math inline">\(x\)</span>取对数似然函数: <span class="math display">\[
 l(\theta)=\sum_{i=1}^m\log p(x;\theta)=\sum_{i=1}^m\log\sum_zp(x,z;\theta)
 \]</span> 而 <span class="math inline">\(z\)</span>时隐随机变量，不方便直接找到参数估计。于是前辈们想出了一个策略：计算 <span class="math inline">\(l(\theta)\)</span> 下界，求该下界的最大值；重复该过程，直到收敛到局部最大值。请看下面这张图：</p>
-<p><img src="/2018/02/03/HMM推导及实现/EM.png"></p>
+<p><img src="/posts_bak/EM.png"></p>
 <p>紫色的 <span class="math inline">\(l(\theta)\)</span> 函数，我们先找到一个函数 <span class="math inline">\(r(x|\theta)\)</span>去迭代逼近 <span class="math inline">\(p(x|\theta)\)</span>，先给定一个初值（绿色线），再求出这个 <span class="math inline">\(r(x|\theta)\)</span> 的最大值，并且保证 <span class="math inline">\(r(x|\theta)\)</span> 函数值比 <span class="math inline">\(p(x|\theta)\)</span> 函数值小，下一次就用红色的线代替原来的初值不断迭代，直到收敛到一个局部的最大值。接下来推导一下，推导过程中使用到了一个著名的不等式-Jensen不等式，简单来说，就是凸函数的割线在该函数的上方，并且可以扩展到概率期望上。这里暂时先不证明了，有机会再完善，只要记住：f是一个凸函数，<span class="math inline">\(X\)</span>随机变量，则： <span class="math display">\[
 E[f(X)] &gt;=f(EX)
 \]</span> 函数的期望大于等于期望的函数。</p>
@@ -517,7 +455,7 @@ E[f(X)] &gt;=f(EX)
 \]</span> 上面我们假设了 <span class="math inline">\(Q_i\)</span> 是 <span class="math inline">\(z\)</span>的某一个分布，<span class="math inline">\(Q_i &gt;= 0\)</span>。在最后一个式子中，我们可以把 <span class="math inline">\(\log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}\)</span> 看成是一个对数函数，并且把 <span class="math inline">\(\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}\)</span>看成是一个随机变量 <span class="math inline">\(X\)</span>，那么这个求和就当于 <span class="math inline">\(X\)</span> 在分布 <span class="math inline">\(Q_i(z^{(i)})\)</span> 上的期望，也就是这里做了期望的函数操作，而对数是凹函数，那么根据上面的Jensen不等式有凹函数：期望的函数大于等于函数的期望。所以得到： <span class="math display">\[
 l(\theta)=\sum_{i=1}^m\log \sum_{z} p(x,z;\theta)=\sum_{i=1}^m \log \sum_{z^{(i)}}p(x^{(i)},z^{(i)};\theta)\\=\sum_{i=1}^m \log \sum_{z^{(i)}}Q_i(z^{(i)})\frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} \\ \geq  \sum_{i=1}^m \sum_{z^{(i)}} Q_i(z^{(i)}) \log  \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
 \]</span> 于是我们就找到了下界，那么这个等号什么时候成立呢？我们来看看对数函数的图像：</p>
-<p><img src="/2018/02/03/HMM推导及实现/log.png"> 一般来说函数的值都是大于割线的值，只有当两点 <span class="math inline">\(x_1=x_2\)</span>时，对数函数的值才等于割线的值。那么如果这个随机变量 <span class="math inline">\(X\)</span> 取一个定值 <span class="math inline">\(C\)</span>，就可以达到 <span class="math inline">\(x_1=x_2\)</span> 的目的。于是我们得到下面的式子： <span class="math display">\[
+<p><img src="/posts_bak/log.png"> 一般来说函数的值都是大于割线的值，只有当两点 <span class="math inline">\(x_1=x_2\)</span>时，对数函数的值才等于割线的值。那么如果这个随机变量 <span class="math inline">\(X\)</span> 取一个定值 <span class="math inline">\(C\)</span>，就可以达到 <span class="math inline">\(x_1=x_2\)</span> 的目的。于是我们得到下面的式子： <span class="math display">\[
 \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} = C
 \]</span></p>
 <p>也就是说 <span class="math display">\[
@@ -568,61 +506,15 @@ P^*=\underset{1\leq i \leq N}{\max}\delta_T(i)
 <h1 id="参考文献">参考文献</h1>
 <p>李航 《统计学习方法》,2012.</p>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/" rel="next" title="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
-                <i class="fa fa-chevron-left"></i> Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2022/10/03/BTCUSDT-永续-20221003-行情推演/" rel="prev" title="BTC-短线交易法">
-                BTC-短线交易法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -685,36 +577,9 @@ P^*=\underset{1\leq i \leq N}{\max}\delta_T(i)
           <nav class="site-state motion-element">
 
             
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
 
             
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
 
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
             
 
           </nav>
@@ -766,7 +631,7 @@ P^*=\underset{1\leq i \leq N}{\max}\delta_T(i)
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

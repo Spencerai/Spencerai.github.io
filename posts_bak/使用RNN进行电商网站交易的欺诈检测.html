@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="反欺诈," />
+  <meta name="keywords" content=",,," />
 
 
 
@@ -81,25 +81,25 @@
 
 <meta name="description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
 <meta name="keywords" content="反欺诈">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
-<meta property="og:url" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/index.html">
+<meta property="og:url" content="http://yoursite.com/posts_bak/使用RNN进行电商网站交易的欺诈检测.html">
 <meta property="og:site_name" content="伪交易员的交易日记">
 <meta property="og:description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/会话padding例子.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/访问最频繁的前100000个产品的点击次数.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/10个随机挑选的类别在12个月时间上的欺诈会话比例.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/一些样本的URL嵌入.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/LSTM细胞核的RNN例子.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/CLUE的系统架构.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/三个不同类别的item嵌入的样本的可视化.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/正常用户和欺诈用户浏览行为的例子.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/会话padding例子.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/访问最频繁的前100000个产品的点击次数.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/10个随机挑选的类别在12个月时间上的欺诈会话比例.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/一些样本的URL嵌入.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/LSTM细胞核的RNN例子.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/CLUE的系统架构.png">
+<meta property="og:image" content="http://yoursite.com/posts_bak/三个不同类别的item嵌入的样本的可视化.png">
 <meta property="og:updated_time" content="2018-02-12T15:33:16.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks">
 <meta name="twitter:description" content="这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。 摘要 交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
+<meta name="twitter:image" content="http://yoursite.com/posts_bak/正常用户和欺诈用户浏览行为的例子.png">
 
 
 
@@ -129,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/"/>
+  <link rel="canonical" href="http://yoursite.com/posts_bak/使用RNN进行电商网站交易的欺诈检测.html"/>
 
 
 
@@ -260,114 +260,30 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/使用RNN进行电商网站交易的欺诈检测/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="星辰大海">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="伪交易员的交易日记">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks</h1>
-        
+	<h1 class="post-title" itemprop="name headline">Session-Based Fraud Detection in Online E-Commerce Transactions Using Recurrent Neural Networks</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00+08:00">
-                2017-12-22
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/漫漫论文之路/" itemprop="url" rel="index">
-                    <span itemprop="name">漫漫论文之路</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。</p>
+      <div class="post-body">
+        
+        
+          <p>这是京东金融一篇关于利用用户行为基于RNN检测是否欺诈的论文，下面是一些个人笔记和翻译。</p>
 <h1 id="摘要">摘要</h1>
 <p>交易欺诈在电子商务上有着严重的风险。我们提出了CLUE,它是一个新的基于深度学习的交易欺诈检测系统，在京东设计并且部署，京东是中国最大的电子商务平台之一，拥有着2亿2千万活跃用户。CLUE使用基于嵌入（embedding）的神经网络捕获了用户的点击行为中的细微信息，并且使用了循环神经网络来建模这样的点击行为序列。更进一步，CLUE提供了结合具体应用的设计上的优化，包括不平衡学习，实时检测，以及增量模型更新（incremental model update）。使用了8个月的真实的生产数据，我们的结果表明CLUE达到了比现存的欺诈检测方法的3倍提升。 <a id="more"></a></p>
 <h1 id="引言">1 引言</h1>
 <p>零售电子商务销售依旧处于快速地发展中[10]。一个大的在线电子商务网站每天都会为百万用户的请求所服务。不幸地是，电子商务中的欺诈已经</p>
 <p>所有这些模型都使用了聚合的特征（aggregated features），例如一个用户上个月浏览项的总数，但是许多欺诈只能通过使用个体的行为才能发现而不是聚合的特征。而且，由于欺诈行为是随着时间而变化来避开检测，简单的特征或者规则很快就会失效。因此，对于一个欺诈检测系统有必要： 1） 以一种尽可能细微的方式（也被称为特征提取）捕获用户的行为； 2） 选择算法从海量的数据中检测欺诈。 算法必须忍受长时间的动态性以及噪音数据。从前的经验表明机器学习算法胜过基于规则的系统[2]。</p>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/正常用户和欺诈用户浏览行为的例子.png">
+<img src="/posts_bak/正常用户和欺诈用户浏览行为的例子.png">
 <center>
 图1.正常用户和欺诈用户浏览行为的例子
 </center>
@@ -395,7 +311,7 @@
 <p>一些会话和一个订单ID关联，它是一个具体应用的字段，表示用户的购买行为。我们可以很容易地使用日志中的订单ID匹配相应的会话ID。本文中，我们忽略所有没有订单的会话，并且我们将捕获一个非购买会话作为未来的一个方向。</p>
 <p>我们使用商业部门记录所有欺诈案件报告的案件数据库标记欺诈的订单。当然，这个标签实际上相当不完整，但是我们即使简单的标记也能帮助我们识别许多欺诈的模式。</p>
 <h2 id="特征提取">2.2 特征提取</h2>
-概览。我们捕获的关键特征是一个用户的浏览行为序列。特别地，我们使用相同会话中的许多点击构成的序列来捕获行为。由于我们仅仅关注购买会话，一个会话中的最终行为总是一个结账点击（checkout click）。图2阐明了四个样例会话。需要注意的是，每个会话都有一个不同个数的点击，因此我们仅仅使用每个会话的最后k个点击。 <img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/会话padding例子.png">
+概览。我们捕获的关键特征是一个用户的浏览行为序列。特别地，我们使用相同会话中的许多点击构成的序列来捕获行为。由于我们仅仅关注购买会话，一个会话中的最终行为总是一个结账点击（checkout click）。图2阐明了四个样例会话。需要注意的是，每个会话都有一个不同个数的点击，因此我们仅仅使用每个会话的最后k个点击。 <img src="/posts_bak/会话padding例子.png">
 <center>
 图2.会话填充(padding)的例子
 </center>
@@ -413,12 +329,12 @@
 <p>实践中的一个问题是对于Item2Vec我们需要多少维来捕获物品的更大的变化。当然，我们需要更多的维度来编码更多的物品。我们观察到访问频率符合一个陡峭的幂律分布，如图3（a）展示的。如果我们选择覆盖所有在点击历史中的90%，我们仅需要25维的Item2Vec，一个非常节省的数据大小。数据尺寸减少是必要的，因为我们的RNN计算时间高度依赖于输入维度。我们嵌入所有其他10%很少出现的物品作为相同的常向量。</p>
 <p>每一天人们都时长增加新的物品到网站，物品的受欢迎程度也会发生改变。我们利用Item2Vec能够嵌入一个新的item在已经存在的条件下在一个在线学习环境中来更新编码的优势。</p>
 <p>总结下来，我们将一个URL嵌入到3部分，类型，类别以及物品，表1提供了一些例子。</p>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/访问最频繁的前100000个产品的点击次数.png">
+<img src="/posts_bak/访问最频繁的前100000个产品的点击次数.png">
 <center>
 图3.用户点击日志模式-访问最频繁的前100000个产品的点击次数
 </center>
 <br>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/10个随机挑选的类别在12个月时间上的欺诈会话比例.png">
+<img src="/posts_bak/10个随机挑选的类别在12个月时间上的欺诈会话比例.png">
 <center>
 图3.用户点击日志模式-10个随机挑选的类别在12个月时间上的欺诈会话比例
 </center>
@@ -428,11 +344,11 @@
 <center>
 表1.一些样本的URL嵌入
 </center>
-<p><img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/一些样本的URL嵌入.png"></p>
+<p><img src="/posts_bak/一些样本的URL嵌入.png"></p>
 <h1 id="基于rnn的欺诈会话检测">3 基于RNN的欺诈会话检测</h1>
 <p>我们的检测是基于一个会话中的点击的序列（如图2所示）。我们将相同会话中的点击按照时间顺序送入到模型中，我们想要在最后的点击（总是一个结账行为）中输出一个风险分数（risk score），意味着这个会话有多可疑。</p>
 <p>为了这样做，我们需要一个能够捕获序列行为的模型。我们发现循环神经网络是一个很好的适合。RNNs已经被成功应用于语言翻译，以及语音识别[23]。一个RNN有一个沿着时间域的递归结构，因此它能够记住之前的行为的信息并且对当前的学习过程携带“记忆”。同时，一个RNN的参数在不同的时间槽中共享，使得它能够处理变长的序列输入。我们把每个点击送近RNN的相应时间槽，而RNN最终输出一个风险分数。图4阐明了RNN的结构以及它的输入/输出。在下面，我们分别使用“深度”以及“宽度”来定义层数以及每一层的隐藏单元的个数。</p>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/LSTM细胞核的RNN例子.png">
+<img src="/posts_bak/LSTM细胞核的RNN例子.png">
 <center>
 LSTM细胞核的RNN例子
 </center>
@@ -451,7 +367,7 @@ LSTM细胞核的RNN例子
 <h2 id="训练-服务架构">4.1 训练-服务架构</h2>
 <p>为了满足这个目标，我们设计了CLUE架构使用了4个紧密连接的部分，如图5所示。 <strong>数据输入。</strong>我们把原始的访问日志从集中的日志存储导入到一个内部的会话数据库在CLUE中，使用标准的ETL（也就是，Extract,Transform以及Load）工具。在导入过程期间，我们排序日志到不同的会话。然后我们使用数据库来连接会话从而过滤那些没有订单ID的会话。</p>
 <p>然后我们获得了手工的标签，不管一个会话是否是欺诈。我们在商业单元中连接上了存储所有欺诈交易案件的数据库。使用案件数据库通过订单ID连接那些已经知道的欺诈会话的标签。需要注意的是，连接需要在训练过程之前进行。这是因为欺诈案件自始至终都在报告，我们总是希望使用最近的报告作为训练标签。</p>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/CLUE的系统架构.png">
+<img src="/posts_bak/CLUE的系统架构.png">
 <center>
 图5.CLUE的系统架构
 </center>
@@ -462,7 +378,7 @@ LSTM细胞核的RNN例子
 <p>为了训练RNN，我们设置了初始的学习率为0.001，并且让它每5000次迭代以指数方式衰减0.5。我们采用TensorFlow中的Adam[17]的默认配置来优化，通过组合AdaGrad(Adaptive Gradient)[9] 以及RMSProp，Adam相比标准的随机梯度下降（SGD）训练过程更快。当验证集上的损失停止下降时，训练过程结束。典型的训练需要持续12个小时，（大约6-8个epochs）。</p>
 <p>我们使用TensorFlow作为深度学习框架[1]，并且利用内建的RNN网络。由于高度不平衡的数据集，我们把batch大小设置为512。</p>
 <p>我们使用一个含有2个Nvidia Tesla K40m GPU的服务器来训练模型，其中每个GPU有12GB内存。服务器的CPU是Intel Xeon E5-2640(2.60GHz) CPU 并且有128GB的内存。为了充分利用GPU，我们采用了数据并行。</p>
-<img src="/2017/12/22/使用RNN进行电商网站交易的欺诈检测/三个不同类别的item嵌入的样本的可视化.png">
+<img src="/posts_bak/三个不同类别的item嵌入的样本的可视化.png">
 <center>
 图6.三个不同类别的item嵌入的样本的可视化
 </center>
@@ -478,67 +394,15 @@ LSTM细胞核的RNN例子
 <h1 id="总结以及未来的工作">7 总结以及未来的工作</h1>
 <h1 id="参考文献">参考文献</h1>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/反欺诈/" rel="tag"># 反欺诈</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/12/17/Neural Architectures for Named Entity Recognition/" rel="next" title="Neural Architectures for Named Entity Recognition">
-                <i class="fa fa-chevron-left"></i> Neural Architectures for Named Entity Recognition
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/03/HMM推导及实现/" rel="prev" title="HMM推导及实现(一)">
-                HMM推导及实现(一) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -601,36 +465,9 @@ LSTM细胞核的RNN例子
           <nav class="site-state motion-element">
 
             
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
 
             
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
 
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
             
 
           </nav>
@@ -682,7 +519,7 @@ LSTM细胞核的RNN例子
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
